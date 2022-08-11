@@ -1,6 +1,6 @@
 INCLUDE Variables.ink
-INCLUDE ./Intro.ink
-
+INCLUDE Intro.ink
+-> Intro
 
 
 === Main ===
@@ -119,7 +119,7 @@ Unidentifiable shapes skitter in the shadows
     }
     
     = Advice
-        There is a gato here.
+        There is a gator here.
         + [Ask for advice?]
             Oh gator what should I do?
             -> Current_Location

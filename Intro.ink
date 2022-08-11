@@ -1,3 +1,4 @@
+===Intro
 Please choose an animal to play as.
 * Meow[], Goes the Cat
     ~Player_Animal = Cat

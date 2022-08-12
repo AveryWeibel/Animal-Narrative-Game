@@ -1,3 +1,5 @@
+INCLUDE Startup.ink
+INCLUDE Variables.ink
 ===Intro
 Please choose an animal to play as.
 * Meow[], Goes the Cat

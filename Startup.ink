@@ -1,5 +1,5 @@
-INCLUDE Variables.ink
-INCLUDE Intro.ink
+//INCLUDE Variables.ink
+//INCLUDE Intro.ink
 -> Intro
 
 

@@ -4,5 +4,5 @@ VAR Starting_Location = ->Location_Park // Where does the player begin the game
 VAR Current_Location = ->Location_Park
 LIST Player_State = Hunted
 ~Player_State = ()
-LIST Player_Animal = Cat, Dog, Fish, Rat
+LIST Player_Animal = cat, dog, fish, rat
 ~Player_Animal = ()

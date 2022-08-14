@@ -99,10 +99,10 @@ Unidentifiable shapes skitter in the shadows
 === Character_Gator
     //Switch on player aniaml
     {Player_Animal:
-    - Rat : ->View
-    - Fish: ->Help
-    - Dog : ->Hunt
-    - Cat : ->Advice
+    - rat : ->View
+    - fish: ->Help
+    - dog : ->Hunt
+    - cat : ->Advice
         
     }
 

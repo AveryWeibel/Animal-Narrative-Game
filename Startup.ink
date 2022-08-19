@@ -4,12 +4,63 @@
 == Main ==
 {player_animal:
     - rat :
+    -> rat_start ->
     - fish:
-    My peaceful slumber is disturbed with a loud splash. I feel as my whole body submerges into the cool, soothing water as I sink deeper and deeper back to sleep.
-    - dog :
+    My peaceful slumber is disturbed with a loud splash. I feel as my whole body submerges into the cool, soothing water as I sink deeper and deeper back to sleep. -> fish_start ->
+    - dog : My peaceful slumber is disturbed by the sounds of birds chirping somewhere in the distance. I roll over and feel the sun’s warm rays warm my face. -> dog_start ->
     - cat :
+    -> cat_start ->
 }
 -> Loop
+
+// initial waking up as pet
+== rat_start ==
+*[Wake up.] ->->
+
+== fish_start ==
+*[Wake up.] ->->
+
+== dog_start ==
+*[Wake up.] It rained the night before and the crisp smell of wet pavement lingered in the air. I bring my paw up to scratch my face… paw? I try to wiggle my fingers but everything feels strange. 
+** [Wake up!] The grogginess immediately leaves my body as I startle myself awake. Rather than seeing my bed and the walls of my room, I find myself surrounded by lush green grass and endless blue skies. 
+Rather than wiggling my fingers and toes, I find myself with paws and a wagging tail. 
+*** I’m suddenly a dog!? [] I quickly jump to my feet and stumble onto all fours. Everything around me feels much larger than it used to be. I am also a lot shorter than I was when I went to sleep.
+**** [Check my reflection.] I tried my best to walk to a nearby pond to see my reflection. It felt surprisingly natural to walk on four legs. Peering into the clear water confirmed my theory. I was in the body of my new pet puppy.
+***** [Panic.] How could this be? It must be the work of that shady shopkeeper. As soon as they started speaking in riddles, I should have known to leave. Instead, I stuck around and still got cursed. 
+They said “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed,” and I ignored it! I better look around for a way home. I have to find a way to turn human again! -> dog_with_shopkeeper
+
+*[Sleep in.] Birds can’t stop me from getting my dang sleep. I burrow my head in my arms to block out the sun. Dreamland seems to be getting further away from me and I grow frustrated.
+I push myself to sit up but my arms slip beneath me. Looking down, I realize that my hands have been replaced with paws.
+** [Panic.] I scream (or whatever the dog equivalent of scream is) and fall over in shock. I turn around and see a fluffy tail tucked between my legs. I couldn’t believe my eyes and begin chasing my tail to see if it was attached to me. 
+*** [Panic more.] Sure enough, when I catch my tail, it belongs to me. I take a moment to rest from the exhausting task of chasing my tail as I hear a child say “Look mommy a puppy!” in the distance.
+I scan my surroundings and realize I am in the local park. Despite the familiarity, everything suddenly feels big and scary. 
+**** [Remember what the shopkeeper said.] My heart pounds in my chest and I panic. What could have possibly happened to me between yesterday night and this morning? 
+Is it possible that the shady shopkeeper was actually telling the truth? “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.” I was so tired that I forgot to close the cage’s gate…
+***** I can’t believe this[.] is really happening! I have to find my way home and back into my original human body. -> dog_with_shopkeeper
+
+== cat_start ==
+*[Wake up.] ->->
+
+// interaction with shopkeeper as pet
+== rat_with_shopkeeper ==
+->->
+
+== fish_with_shopkeeper ==
+->->
+
+== dog_with_shopkeeper ==
+* "Little pup seems to have messed up[."]... Hello hello,” the shopkeeper giggles. 
+If my adorable puppy face could grimace, it would. Instead, I bark back a reply: “Turn me back into a human now!”
+** [Growl as the shopkeeper laughs.] The shopkeeper just laughs again and waves their hand as if my problems were nothing. 
+“You didn’t listen, silly pup! ‘Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.’ You didn’t listen and your time is up!”
+*** "Am I stuck like this forever...?" []
+“Fortunately for you, there is a way.” the shopkeeper starts. “To make up for your lack of responsibility, you will be a puppy for the day!.”
+**** "WHAT?["] Why? I made a mistake. Can't you just poof me back?"
+The shopkeeper ignores me and continues: “Get back home, safe and sound. That will turn the curse around! This is a learning experience just for you! Best be off now. There is a lot to see and do.”
+->->
+
+== cat_with_shopkeeper ==
+->->
 
 == Loop ==
 {DescribeLocation()}
@@ -45,7 +96,8 @@
         - fish: 
         fishy in the pond at the park.
         ~ connecting_locations = (street, sewer)
-        - dog :
+        - dog : 
+        puppy in the puppy park
         - cat :
         }
     - street:

@@ -45,6 +45,4 @@ The {player_animal} will be the perfect buddy.
 * [Try to pull away.] “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.” They let go of my hand and smile and wave goodbye as if nothing happened. 
     ** [Shake it off.] Well, that was strange. I leave the tent and head back to my apartment with my new buddy. “I’ll take care of you, don’t worry.” When we make it back, I set up the new pet area and let it make itself comfortable in its new home.
         *** It's getting late[.], so maybe I should start settling in for the night. As I lay in bed, the shopkeeper’s weird warning comes to mind again. “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.” I glance over to my pet, let the warning go, and close my eyes.
-
-
-->Main
+                **** [Go to sleep.] ->Main

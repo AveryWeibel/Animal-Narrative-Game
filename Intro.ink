@@ -18,30 +18,30 @@ Instead, I find a seemingly regular elderly person. The laugh lines are a clear 
 I know which animal I want. 
 //Please choose an animal to play as.
 + Meow[], goes the Cat
-    ~Player_Animal = cat
+    ~player_animal = cat
     Are you sure you want the cat?
     ++ [Yes.]->animal_picked
     ++ [No.]->animal_choice
 + Woof[], goes the Dog
-    ~Player_Animal = dog
+    ~player_animal = dog
     Are you sure you want the dog?
     ++ [Yes.]->animal_picked
     ++ [No.]->animal_choice
 + Blub[], goes the Fish
-    ~Player_Animal = fish
+    ~player_animal = fish
     Are you sure you want the fish?
     ++ [Yes.]->animal_picked
     ++ [No.]->animal_choice
 + Squeak[], goes the Rat
-    ~Player_Animal = rat
+    ~player_animal = rat
     Are you sure you want the rat?
     ++ [Yes.]->animal_picked
     ++ [No.]->animal_choice
     
 === animal_picked ===
-The {Player_Animal} will be the perfect buddy.
+The {player_animal} will be the perfect buddy.
 
-“Ah splendid! I hope everything goes as intended.” I exchange my money for my new {Player_Animal} friend and the supplies to accompany it, but the shopkeeper quickly grabs my hand. 
+“Ah splendid! I hope everything goes as intended.” I exchange my money for my new {player_animal} friend and the supplies to accompany it, but the shopkeeper quickly grabs my hand. 
 * [Try to pull away.] “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.” They let go of my hand and smile and wave goodbye as if nothing happened. 
     ** [Shake it off.] Well, that was strange. I leave the tent and head back to my apartment with my new buddy. “I’ll take care of you, don’t worry.” When we make it back, I set up the new pet area and let it make itself comfortable in its new home.
         *** It's getting late[.], so maybe I should start settling in for the night. As I lay in bed, the shopkeeper’s weird warning comes to mind again. “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.” I glance over to my pet, let the warning go, and close my eyes.

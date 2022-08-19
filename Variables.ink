@@ -1,8 +1,19 @@
-LIST Current_Connections = Sewer, Street, Alleyway, Park // Define all potential connections
-~ Current_Connections = () // Clear connection list by default. This will be filled by location knots
-VAR Starting_Location = ->Location_Park // Where does the player begin the game
-VAR Current_Location = ->Location_Park
-LIST Player_State = Hunted
-~Player_State = ()
-LIST Player_Animal = cat, dog, fish, rat
-~Player_Animal = ()
+// Location Handling
+LIST locations = alleyway, park, sewer, street  // Define all potential locations
+VAR current_location = park
+VAR connecting_locations = ()
+
+// Animal Handling
+LIST animal_type = human, cat, dog, fish, rat
+VAR player_animal = human
+
+// Encounter Handling
+VAR shopkeeper_encounter = 0
+VAR child_encounter = 0
+VAR dog_encounter = 0
+VAR crow_encounter = 0
+VAR cat_encounter = 0
+VAR raccoon_encounter = 0
+VAR gator_encounter = 0
+
+// Inventory Handling

@@ -31,7 +31,12 @@
 ******There’s a person standing nearby[.], looking at me. My instincts tell me to stay away, and that's fine. I have to figure out how to become human again! ->rat_with_shopkeeper
 
 == fish_start ==
-*[Wake up.] ->->
+* Wait! Water?[] Suddenly, I am completely alert. I frantically try to kick my feet to swim up, gasping for air. But hold up… where are my damn feet. And hold up again… where are my damn arms! AND HOLD UP ONE MORE TIME… WHERE ARE MY DAMN LUNGS. I look down at my body. My once beautiful hands and legs are now replaced with silky golden fins. My once beautiful lungs are now replaced with gills on both sides of my face.
+** [Look around.] I observe my surroundings, looking for answers. Out of the corner of my eye, I see the gleam of shiny coins settled in the underwater mud. Using my newly-found aquatic abilities, I paddle down to the one of the shiny coins below, and see a little goldfish staring back at me. Man. Why is this little fish staring at me? How did he even get in there? What an idiot!
+*** [Hold up.] Wait... Wait. Wait. Wait! That's not another fish! That's me! I'm the fish! Panicked, I try to shut my eyes, telling myself that this is all just a dream. BUT OF COURSE! GOLDFISH DON'T HAVE EYELIDS! I frantically look around, but alas, the only things around are leafy underwater foliage and algae covered rocks swaying in the water. However beyond the surface of the water, the muffled sounds can be heard in the distance.
+**** [Swim Up.] As I swim up to the surface, the muffled noises become clearer and clearer. Those aren't just random sounds. Those are people! Finally! Some help. "I'm here! I'm here!" I call out as I swim faster towards the surface. But as I approach the surface a huge object suddenly lands on the surface of the water above, blocking out the Sun.
+***** [Stop Swimming.] I stop in my tracks. The large object sinks into the water, drifing down past me. It's a giant slice of bread? Stunned, I look up again to see several more slices floating down. Where are all these coming from.
+****** [Continue Swimming.] Once I read the surface, I see ginormous people spread throughout the area riding bikes, player with their dogs, picnicking in the grass. Ooooh! The park! I'm in the pond at the park! Suddenly, another slice of bread falls from bench in front of the pond, splashing down next to me and creating ripples as it sinks. "Oh... who do we have here?" said the source of the bread rain. ->fish_with_shopkeeper
 
 == dog_start ==
 *[Wake up.] It rained the night before and the crisp smell of wet pavement lingered in the air. I bring my paw up to scratch my face… paw? I try to wiggle my fingers but everything feels strange. 
@@ -66,6 +71,8 @@ The shopkeeper waves my question off and continues. “It’ll be a learning exp
 ->->
 
 == fish_with_shopkeeper ==
+* [Look up.] Looking up at the fish feeder, I see that it is that shopkeeper that sold me the fish yesterday. “Quite the predicament you’re in, aren’t ya,” said the Shopkeeper with a smirk. “ “You?! You did this!?”, I shouted angrily. “Hehehe! You should’ve listened to what I said. Now you must suffer the consequences.” the Shopkeeper cackled. Damn. Why didn’t I just put the lid on the stupid fish tank.
+** [Continue listening.] Fortunately for you, there is a solution.” the shopkeeper starts. “To make up for your lack of responsibility, you will experience everything from the perspective of your new little fishy. All you must do is return back to your home safe and sound.” My little fish heart dropped. How am I, a damn goldfish, supposed to make it all the way back home. I’m doomed. “Do not fret, my child. Let this be a learning experience for you. There is much for you to do. Be creative. You’ll find a way.” said the Shopkeeper as they stood up to leave, scattering the reminder of the bread along the floor.
 ->->
 
 == dog_with_shopkeeper ==

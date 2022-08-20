@@ -2,9 +2,11 @@ INCLUDE Startup.ink
 INCLUDE Variables.ink
 ===Intro===
 It was a day like any other. I left my apartment and began to walk around the neighborhood.
-First things first, I stop by the alleyway and leave out a little snack for the stray cats. Most of them are shy and cautious of me, but I think one of them is starting to take interest. -> continuation
+First things first, I stop by the alleyway and leave out a little snack for the stray cats. Most of them are shy and cautious of me, but I think one of them is starting to take interest.
+ * [Wait and observe the cats]
+    
 
-=== continuation ===
+=== EnterTheTent ===
 * [Browse the tent.] I half-expect to find a sketchy fortuneteller or shady vendor trying to sell me healing crystals and whatnot. 
 Instead, I find a seemingly regular elderly person. The laugh lines are a clear indication of a happy and fulfilled life. Surrounding them are cages of all kinds of animals. 
 “Welcome, welcome!” They greet me with a smile. Gesturing to the cages around them, they continue. “It’s a great fortune that we’ve met, can I interest you in a pet?”

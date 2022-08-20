@@ -120,6 +120,11 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
     - park:
         {player_animal:
         - rat :
+        "Oh man, where do I even start to go from here?"
+        ~ area_moves = 0
+        {  child_encounter > 0 or dog_encounter > 0:
+            ~ connecting_locations = (street, sewer, alleyway)
+        }
         - fish: 
         fishy in the pond at the park.
         ~ connecting_locations = (street, sewer)
@@ -177,6 +182,10 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- dog_dog_encounter_storylet_description(ret)
 <- dog_street_encounter_storylet_description(ret)
 <- dog_sewer_storylet_description(ret)
+<- rat_child_encounter_storylet_description(ret)
+<- rat_dog_encounter_storylet_description(ret)
+<- rat_street_encounter_storylet_description(ret)
+<- rat_sewer_encounter_storylet_description(ret)
 ->DONE
 
 == fish_child_encounter_storylet_description(->ret) ==
@@ -329,6 +338,86 @@ Ali does this sort of sickening blend of a laugh and snapping its jaws shut befo
 ~ area_moves = 2
 - ->->
 
+
+//////////// RAT SECTION /////////////////////
+
+=== rat_child_encounter_storylet_description(->ret) ===
+{ player_animal == rat && current_location == park && child_encounter == 0 && dog_encounter == 0:
+    * [The pond’s water glitters in the sunlight.]
+       -> rat_child_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== rat_child_encounter_storylet_body ===
+~ child_encounter++
+Maybe it’s a good idea to get a drink of water. As I scamper over and dip my face in the water, I hear sudden sounds of child laughter nearby.
+“Look mommy! Something fuzzy!”
+*[Something fuzzy?] The child starts running towards me at full speed with their hands outstretched. Oh no, I can’t let them grab me!
+“Come here, fuzzy!”
+**[Run away from the child!] Sorry kid, but not today!
+
+- ->->
+
+=== rat_dog_encounter_storylet_description(->ret) ===
+{ player_animal == rat && current_location == park && dog_encounter == 0 && child_encounter == 0:
+    * [There are lots of dogs running around nearby.]
+        -> rat_dog_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== rat_dog_encounter_storylet_body ===
+~ dog_encounter++
+“Hey friend! Wanna play? I wanna play with you!” As I turn around to identify the voice, I’m greeted with the nose of a very excited golden retriever looking for a friend to play with.
+*“Play with someone else, I’m busy[!"]- Gah!” I squeak back in protest as this random dog pokes me and pushes me over with its nose.
+“Come on, play with me! It’ll be fun!” The dog continues to try and persuade me, tail wagging. “Here’s a game we can play: You run, and I’ll chase you around the park like you’re a ball!”
+**[Run away from the dog!] That doesn’t sound like fun at all! I gotta get out of here!
+
+- ->->
+
+== rat_street_encounter_storylet_description(->ret) ==
+{ player_animal == rat && current_location == street:
+~ area_moves = 1
+    * [Run through the street.]
+        -> rat_street_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== rat_street_encounter_storylet_body ===
+//{ cat_encounter < 1:
+    ~ crow_encounter++
+    As I run through the street, I hear a few people go “Ew, a rat!”. Man, it’s tough being a rat. 
+    “Ah, hello down there. A crow caws from the telephone pole above me before flying down. “I haven’t seen you before. Are you new around these parts or something?”
+    *[Ask the crow for help.] “I actually just moved in with my owner yesterday, but I got lost. Do you think you could help? I live in the apartments over there!” I explain, pointing out my apartment to the crow.
+    “Hmm, quite the conundrum. I’m not sure if I could be of any help to you in particular, but I do know of a cat and a raccoon that hang out in the alleyway nearby that might be able to.”
+    **[Thank the crow.] It bows its head at me in return before I run off again.
+ 
+/// add crow stuff
+    
+/*- else: 
+aa
+~area_moves = 2
+
+}*/
+- ->->
+
+=== rat_sewer_encounter_storylet_description(->ret) ===
+{ player_animal == rat && current_location == sewer && area_moves == 0:
+    *[Run into the sewer.]
+        -> rat_sewer_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== rat_sewer_encounter_storylet_body ===
+~ gator_encounter++
+I run into the closest thing I can find, which happens to be a runoff pipe. I just keep running without looking back, and find some comfort in the darkness of… the sewer? I stop and sniff the air. Yup. Definitely the sewer.
+*[Inspect my surroundings.] There is sewage running through the middle of the large enclosed area I find myself in, and some random piles of cans and other trash lying around. Not sure how I’m gonna get home from here, but it doesn’t hurt to look around. 
+**[What's that over there?] In the distance, I see ripples in the water, and the head of what appears to be a sewer gator surfaces. Wait, a sewer gator? That urban legend actually exists?! I should get out of here before it sees me!
+
+- ->->
 //Old Stuff
 /*=== Main ===
 -> Starting_Location

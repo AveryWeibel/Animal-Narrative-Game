@@ -16,4 +16,9 @@ VAR cat_encounter = 0
 VAR raccoon_encounter = 0
 VAR gator_encounter = 0
 
+// idk how to fix this yet so VAR for entering and leaving the area
+VAR area_moves =  0 // 0 = enter, 1 = inside/no change, 2 = exit
+
 // Inventory Handling
+VAR racoon_soda_can = 0
+VAR shiny_gator_rock = 0

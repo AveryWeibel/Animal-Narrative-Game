@@ -124,7 +124,11 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         fishy in the pond at the park.
         ~ connecting_locations = (street, sewer)
         - dog : 
-        puppy in the puppy park
+        "Where should I go...?"
+        ~ area_moves = 0
+        {  child_encounter > 0 or dog_encounter > 0:
+            ~ connecting_locations = (street, sewer, alleyway)
+        }
         - cat :
         }
     - street:
@@ -134,6 +138,11 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         fishy in the baggy on the streets.
         ~ connecting_locations = (park)
         - dog :
+        {  area_moves == 2:
+            ~ connecting_locations = (park)
+        - else: 
+            ~ connecting_locations = ()
+        }
         - cat :
         }
     - sewer:
@@ -142,7 +151,12 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         - fish: 
         fishy swimming in the stinky water.
         ~ connecting_locations = (park)
-        - dog :
+        - dog : 
+        {  area_moves == 2:
+            ~ connecting_locations = (park)
+        - else: 
+            ~ connecting_locations = ()
+        }
         - cat :
         }
     - alleyway:
@@ -159,6 +173,10 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 === storylets(->ret) ===
 <- fish_child_encounter_storylet_description(ret)
 <- fish_dog_encounter_storylet_description(ret)
+<- dog_child_encounter_storylet_description(ret)
+<- dog_dog_encounter_storylet_description(ret)
+<- dog_street_encounter_storylet_description(ret)
+<- dog_sewer_storylet_description(ret)
 ->DONE
 
 == fish_child_encounter_storylet_description(->ret) ==
@@ -185,6 +203,130 @@ Child is a bastard
 === fish_dog_encounter_storylet_body ===
 ~ dog_encounter++
 Dog is cool guy
+- ->->
+
+////////////////////// DOG SECTION //////////////////////
+
+== dog_child_encounter_storylet_description(->ret) ==
+{ player_animal == dog && current_location == park && child_encounter == 0 && dog_encounter == 0:
+    * [There is a child running around by the pond.]
+        -> dog_child_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== dog_child_encounter_storylet_body ===
+~ child_encounter++
+“DOGGY.” I feel a pair of grubby hands run all over my fur. I shake all over to rid myself of the dirt.
+* [Run away from the kid!] The child just laughs at me and chases me around! I need to get out of here immediately!
+Should I risk it in the streets?
+Should I hide in the sewers?
+Should I wing it and look around my apartment?
+
+- ->->
+
+== dog_dog_encounter_storylet_description(->ret) ==
+{ player_animal == dog && current_location == park && dog_encounter == 0 && child_encounter == 0:
+    * [There are other dogs in the dog park.]
+        -> dog_dog_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== dog_dog_encounter_storylet_body ===
+~ dog_encounter++
+I run over to the dog park to look for help. My fellow dogs should be able to help me out right?
+* Suddenly,[ a dog.] I feel a giant yellow blob barrel into me. 
+“Hello! I’m Buddy! Hello! New friend? Hello! Need help? Hello? ”says a friendly golden retriever as he sniffs me and wags his tail excitedly. 
+** [Play with my new friend.] I jump up and run around Buddy. He yips and we romp around the dog park and roll in the grass. 
+Buddy’s owner even calls us over and we both get head scratches and belly rubs. It’s so nice to be a dog… wait. I need to get home!
+*** [No time to play. I need help now!] “I need help getting back to that apartment building. Can you help me?” I don't know if puppy dog eyes work on other dogs but I'll try.
+“Oh! Very easy! There are many ways back. My owner and I like exploring this area.”
+“There is the loud crow that knows everything about everything." Buddy barks towards the street.
+“There is the scary river that runs below the building." Buddy swipes his paw toward the sewer pipe by the pond.
+“There are also tricksters that live in the shadows. Maybe they know something.” Buddy runs around in circles before pointing at the alleyway with his nose.
+
+- ->->
+
+== dog_street_encounter_storylet_description(->ret) ==
+{ player_animal == dog && current_location == street:
+~ area_moves = 1
+    * [Rest on the street corner.]
+        -> dog_street_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== dog_street_encounter_storylet_body ===
+{ crow_encounter < 1:
+    ~ crow_encounter++
+    I rest beneath a telephone pole with a bunch of posters hanging off of it.
+    “Hey, hey hey!! You better not be a thief! Are you here to steal my spot? Steal my treasure? I’ll peck your eyes out. I’ve never forgotten a face. Not even that evil child with the grabby hands… A-anyWAYS WHAT DO YOU WANT?”
+    Suddenly a scary crow starts flappings its wings at me and pecking the air. 
+ 
+/// add crow stuff
+    
+- else: 
+bird brainnnnn
+~area_moves = 2
+}
+- ->->
+
+== dog_sewer_storylet_description(->ret) ==
+{ player_animal == dog && current_location == sewer && area_moves == 0:
+    + I follow the path into the sewer until the water splits left and right.[]
+        -> dog_sewer_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== dog_sewer_storylet_body ===
++ [Go left.]
+There are piles and piles of human garbage. Many things seem to have fallen through the grates.
+    { raccoon_encounter < 1:
+        I continue down the path, but nothing sticks out to me as useful. 
+        ~ area_moves = 2
+    - else:
+        I notice a cola can shining atop a pile of junk. This would be perfect for the raccoon! ~ racoon_soda_can++ 
+    }
++ [Go right.] 
+{ gator_encounter < 1:
+    ~ area_moves = 1
+    I notice something floating down the water and curiously step closer.
+    Suddenly a sewer gator jumps out at me!
+    ++ Run out of the sewer and back to the park. -> dog_gator_encounter_storylet_description
+    
+    
+ 
+    // FIX "RUN OUT OF THE SEWER AND BACK TO THE PARK"
+    
+    
+    
+    ++ Run deeper into the sewer and hide. 
+    The gator follows closely behind without stopping. I turn a corner and find myself at a dead end. 
+    I growl and bare my teeth at it.
+        +++ [Meet Ali the Gator.] -> dog_gator_encounter_storylet_description
+
+- else: 
+    I trot over to Ali and say hello.
+    She guffaws and splashes me with water. "Don't you haveeee doggy stuffff to doooo? Surely there'sssss better than to talk to an ol' sewer gatorrrr."
+    I shake off all the water, bark happily at her, and leave once again.
+     ~ area_moves = 2
+}
+- ->->
+
+=== dog_gator_encounter_storylet_description ===
+~ gator_encounter++
+The gator raises its head out of the water and in a low grumbling voice, it finally speaks. “Youuuuu….”
+* [Youuuu...?] “Youuuuu… seem to be lost! Are you alright lil one?” The alligator lazily rolls in the water before grinning. 
+“I’mmmm… Ali, the alligator. But ev’rybody calls me a sewer gator for someeeee reason. Hmphh. Rude iffff you ask meeee.”
+** My ears flop over sadly. "Can you please help me?" [] 
+“I’m trying to get into the apartment above this sewer. It’s my home,” I plead nervously.
+“Hmmmmm. Unfortunatelyyyy… the only ways out areeee through the water and the pipessss. Sorry, little frienddddd. Try somewhere elseeee.”
+*** "Thank you[..."] for not eating me... I'll get out of your scales now..." I dejectedly walk away towards the sewer entrance.
+Ali does this sort of sickening blend of a laugh and snapping its jaws shut before stopping me with her tail. "Take thisss shiny rock. I haveeee no useeee for it. You areeee a good dog."  
+~ shiny_gator_rock = 1
+~ area_moves = 2
 - ->->
 
 //Old Stuff
@@ -322,58 +464,3 @@ Unidentifiable shapes skitter in the shadows
             + [Run!!!]
             You barely get away... -> Location_Park
 */
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

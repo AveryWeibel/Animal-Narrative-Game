@@ -422,26 +422,64 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
         ~ area_moves = 2
         ->->
     - else: 
-        “T-this is a trick, isn’t it? You want to get rid of me! HA! Well, think again! Leave me alone!” The crow angrily caws in my ear before flying off. 
-        I promptly run away.
+        { cat_encounter > 0:
+            “Excuse me, Mr. Crow, sir?”
+            “What, what, WHAT DO YOU WANT? I knew you wanted to steal my treasure. THIEF! THIEF. THIE– oh. I see something shiny. Is that for me? GIMME.” The crow flaps its wings angrily at me and tries to swipe the toy from my mouth. 
+            I growl and back away. “Only if you return the cat’s bell!” [Back away from the crow more.]
+            “F-fine, FINE. Take the lame cat bell! Give me the shiny thing!” The crow flies away before returning and dropping the bell in front of me. 
+            I drop the fidget spinner and we quickly snatch up our respective shinies.
+            “Thank you for your time. Bye bye birdie!” 
+            Time to head back. [Return to the park.]
+
+            ~shiny_crow_toy--
+            ~cat_bell++
+            ~ area_moves = 2
+            ~ current_location = park
+            ->->
+        
+        - else: 
+            “T-this is a trick, isn’t it? You want to get rid of me! HA! Well, think again! Leave me alone!”
         ~ area_moves = 2
         ->->
+        }
      }
 - else: 
-    "What do you want?!?!"
+    "What do you want?!?!" 
     ~ area_moves = 1
     ~ which_end = crow_end
     { shiny_gator_rock == 1:
-        "Please, I need to get home."
-        * [Drop the rock in front of the telephone pole.] "FINALLY. Was that so hard? I can't believe you would try to scam me. I'll never forget your attitude, you dog." The crow flies off and I follow in tow.
-        ** [Follow the crow back to the apartment.]
+        *[Trade the rock for a way home.]"Please, I need to get home."
+        ** [Drop the rock in front of the telephone pole.] "FINALLY. Was that so hard? I can't believe you would try to scam me. I'll never forget your attitude, you dog." The crow flies off and I follow in tow.
+        *** [Follow the crow back to the apartment.]
         -> outside_dog_apartment
+    - else:
+        { cat_encounter == 0 && raccoon_encounter == 0:
+        "Sorry to bother you..." I hang my head sadly.
+        Since I have nothing to say or offer to the crow, I decide to run back to the park.
+        ~ area_moves = 2
+        }
     }
     { raccoon_encounter > 0:
-        "Have you seen any red cans?" My tail hangs between my legs as I nervously ask the crow my question.
+        *[Ask about red cans.] "Have you seen any red cans?" My tail hangs between my legs as I nervously ask the crow my question.
         "Hmph... A red can fell down the street drain... Is that all? You better not be planning anything bad! O-or else! Now GO AWAY."
         Time to go into the... sewers. Ew. 
         ~ area_moves = 2
+        ->->
+    }
+    { cat_encounter > 0:
+        *[Show off the shiny toy to the crow.]
+        “Excuse me, Mr. Crow, sir?”
+        “What, what, WHAT DO YOU WANT? I knew you wanted to steal my treasure. THIEF! THIEF. THIE– oh. I see something shiny. Is that for me? GIMME.” The crow flaps its wings angrily at me and tries to swipe the toy from my mouth. 
+        ** [Back away from the crow.] I growl and back away. “Only if you return the cat’s bell!” 
+        “F-fine, FINE. Take the lame cat bell! Give me the shiny thing!” The crow flies away before returning and dropping the bell in front of me. 
+        I drop the fidget spinner and we quickly snatch up our respective shinies.
+        “Thank you for your time. Bye bye birdie!” 
+        Time to head back. 
+
+        ~shiny_crow_toy--
+        ~cat_bell++
+        ~ area_moves = 2
+        ->->
     }
 }
 - ->->
@@ -458,15 +496,21 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
 + [Go left.]
 ~ area_moves = 1
 There are piles and piles of human garbage. Many things seem to have fallen through the grates.
-There are various objects that definitely don't belong in the sewers. Why is there a bicycle here? Is that a cooler...? There's even a pyramid of soda cans next to a plastic cutlery sculpture...
     { raccoon_encounter < 1:
-        I continue down the path, but nothing sticks out to me as useful. The smell of the sewer was too much for me to handle and I sprint out of the pipe.
+        I continue down the path, but nothing sticks out to me as useful. The smell of the sewer was too strong and I promptly leave.
         ~ area_moves = 2
         ~ current_location = park
     - else:
-        I notice a cola can shining atop a pile of junk. This would be perfect for the raccoon! 
-        ~ racoon_soda_can++ 
-        ~ current_location = park
+        { raccoon_soda_can == 0:
+            There are various objects that definitely don't belong in the sewers. Why is there a bicycle here? Is that a cooler...? There's even a pyramid of soda cans next to a plastic cutlery sculpture...
+            I notice a cola can shining atop the soda pyramid. This would be perfect for the raccoon! 
+            ~ raccoon_soda_can++ 
+            ~ current_location = park
+        }
+        {raccoon_soda_can == 1: 
+            Other than the soda can I found, there is nothing else useful to me. 
+            ~ area_moves = 2
+        }
     }
 + [Go right.] 
 { gator_encounter < 1:
@@ -509,27 +553,65 @@ I trot back to the park, stone in mouth.
 
 === dog_alleyway_encounter_storylet_body ===
 ~ area_moves = 1
-{ raccoon_encounter < 1:
-    I make my way to the alley that I had visited just yesterday. The dark buildings stretch and loom overhead.
-    *[Approach the raccoon shadow by the dumpster.] “Any friendly creatures here? I need some help.”
-    “Hehehe what are you doing here, dog? Need something?” a shifty raccoon jumps out of the dumpster and stares at me. 
-    ~ raccoon_encounter++
-    ** I jump back, startled by the sudden raccoon. [] “I need help getting back into my apartment. I got locked out!”
-    “Hmm, I guess I can help. But what’s in it for me? What can you offer? How about a red soda can? Can you do that for me?”
-    I paw at the ground in front of me. “I can’t really see color right now…” 
-    “That’s not really my problem, is it? Now scram!” The raccoon hisses at me and my ears and tail droop in fear.
-    ~ area_moves = 2
-    ~ current_location = park
-    ->->
-
-- else: 
-    ~ which_end = raccoon_end
-    “Shifty raccoon! I brought you a gift!” I happily trot down the alley knowing I was going home soon.
-    “There you are! Do you have what I… asked for?” The raccoon wrings its little hands and stares through me.
-    * “That’s my favorite brand! Gimme gimme gimme!” [] I hand over the cola can. 
-    The raccoon jumps around happily and I run circles around him.
-    Finally, time to go home! -> outside_dog_apartment
-}
++ I check the dumpster{raccoon_encounter > 0: again}.
+    { raccoon_encounter < 1:
+        I make my way to the alley that I had visited just yesterday. The dark buildings stretch and loom overhead.
+        *[Approach the raccoon shadow by the dumpster.] “Any friendly creatures here? I need some help.”
+        “Hehehe what are you doing here, dog? Need something?” a shifty raccoon jumps out of the dumpster and stares at me. 
+        ~ raccoon_encounter++
+        ** I jump back, startled by the sudden raccoon. [] “I need help getting back into my apartment. I got locked out!”
+        “Hmm, I guess I can help. But what’s in it for me? What can you offer? How about a red soda can? Can you do that for me?”
+        I paw at the ground in front of me. “I can’t really see color right now…” 
+        “That’s not really my problem, is it? Now scram!” The raccoon hisses at me and my ears and tail droop in fear.
+        ~ area_moves = 2
+        ~ current_location = park
+        ->->
+    
+    - else: 
+        { raccoon_soda_can == 1:
+            ~ which_end = raccoon_end
+            “Shifty raccoon! I brought you a gift!” I happily trot down the alley knowing I was going home soon.
+            “There you are! Do you have what I… asked for?” The raccoon wrings its little hands and stares through me.
+            * “That’s my favorite brand! Gimme gimme gimme!” [] I hand over the cola can. 
+            The raccoon jumps around happily and I run circles around him.
+            Finally, time to go home! -> outside_dog_apartment
+        - else: 
+            "Did you find it yet, my furry friend?" The raccoon's beady eyes stare through me and my ears flop down.
+            "Not yet..." My tail drooped between my legs and I paw the ground in front of me.
+            "Well you won't find it here! And certainly not digging into the ground like that. Now get going!" The raccoon shoos me away and I run back to the park.
+            ~ area_moves = 2
+            ~ current_location = park
+        }
+    }
++ I check the boxes{cat_encounter > 0: again}.
+    { cat_encounter < 1:
+        “You don’t belong here, do you? I can just tell,” a cat with an eyepatch emerges from the shadows and jumps on the box tower.
+        ~ cat_encounter++
+        *[Ask for help from this mysterious cat.] I could recognize that cat anywhere! “Woah, you’re the cat that I… I mean my owner feeds, aren’t you? Can you help me get into my apartment?” 
+        “Your owner is that nice human? Fine, fine. I’ll help you. But only if you get something from that nasty crow. Trade this metal fidget spinner for my cat bell.”
+        ** [Take the toy.] “He can’t use it but it’s shiny. Haha, silly bird.”
+        “Now leave me be. Don’t return until you have my bell.” the cat swipes her paw at me and I bark in annoyance.
+        ~shiny_crow_toy++
+        ~ area_moves = 2
+        ~ current_location = park
+        ->->
+    
+    - else: 
+        { cat_bell == 1:
+            ~ which_end = cat_end
+            “Pirate cat! I did it! The crow eagerly traded the toy for your bell.” I drop the bell onto a box in front of the cat.
+            “Ooo! So you did!” The cat swiftly takes the bell and begins to play with it. "Ahh yes, this wonderful chiming sound never gets old..."
+            * “So about going home...["] Is it possible to leave right now?"
+            "Of course it is! You helped me after all. It's only fair that I help you too. Now let's go!" The cat runs off and I follow. -> outside_dog_apartment
+        - else: 
+            "Did you deal with that annoying crow yet?" The cat licks its paws and glares at the toy in my mouth. "Obviously not I see..."
+            "Sorry... the crow is scary." My tail drooped between my legs and I try to avoid her eyes.
+            "Well it won't do you any good sitting around here! Promise. The crow will listen as long as you have something shiny, which you do. Now run along little puppy." The pirate playfully swipes her claws at me and I immediatly run off.
+            ~ area_moves = 2
+            ~ current_location = park
+        }
+        
+    }
 - ->->
 
 == outside_dog_apartment ==
@@ -547,6 +629,14 @@ I trot back to the park, stone in mouth.
     I try to hug the raccoon to the best of my ability as a dog and happily jump through the window. “Thank you for helping me! Enjoy the red can,” I bark as the raccoon scampers away. 
     *[Enter the apartment.] -> inside_dog_apartment
 }
+{which_end == cat_end: 
+    The cat leads me to my apartment window and I immediately headbutt the glass trying to get inside. 
+    The cat watches me, amused. 
+    *[Wait for the cat to open the window.] She unsheathes her claws and makes quick work of the window latch before forcing the window open.
+    I try to show my thanks by pouncing on her but the pirate cat hissed and ran away. I bark and yip a few times in her direction before scrambling inside the apartment. 
+    ** [Enter the apartment through the open window.] -> inside_dog_apartment
+
+}
 
 == inside_dog_apartment ==
 
@@ -554,7 +644,7 @@ As soon as I enter the apartment I feel at home. Everything from the decorations
 {which_end == crow_end: 
     “You’re safe now buddy. I’m sure your owner will be back soon.” My neighbor pets me on my head and guides me back into my cage where the door was wide open.
 } 
-{which_end == raccoon_end: 
+{which_end == raccoon_end or cat_end: 
      Despite having so much energy, I suddenly feel exhausted and sluggishly walk myself to the cage.
 } 
 * [Enter the cage.] With the cage now closed and locked, I finally let myself rest.
@@ -564,7 +654,7 @@ I circle around inside the cage before lying down to rest. Finally, I’m safe a
 == dog_ending ==
 I hear the sound of chirping birds coming from outside. I sit up in my bed and stretch my aching bones.
 What an exhausting dream.
-* [Glance over at the dog cage] My little buddy is sleeping soundly.
+* [Glance over at the dog cage.] My little buddy is sleeping soundly.
 I laugh to myself as I recall my dream of turning into my new pet.
 {which_end == crow_end: 
     Looking over at the counter, I notice a brand new dog toy wrapped in a bright red bow.
@@ -577,6 +667,13 @@ I laugh to myself as I recall my dream of turning into my new pet.
     I shiver as I feel a cold breeze coming from the other side of the room. I could have sworn I closed the window… huh? 
     The latch is broken and there’s a raccoon hanging out in the alley below the window…
     That must mean I really DID turn into a dog! I grin thinking about yesterday’s wild adventures. -> END
+} 
+{which_end == cat_end: 
+    I shiver as I feel a cold breeze coming from the other side of the room. I could have sworn I closed the window… huh? 
+    Upon further inspection, the latch is broken and there is a pirate cat sleeping on the window ledge.
+    That’s the cat from yesterday’s dream! Or maybe… I really did turn into a dog?
+    I take a picture of my newest buddy and reminisce on yesterday’s crazy journey. 
+ -> END
 } 
 
 //////////// RAT SECTION /////////////////////

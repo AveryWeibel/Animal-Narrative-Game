@@ -306,6 +306,14 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 === storylets(->ret) ===
 <- fish_child_encounter_storylet_description(ret)
 <- fish_dog_encounter_storylet_description(ret)
+<- fish_cat_encounter_storylet_description(ret)
+<- fish_crow_encounter_first_storylet_description(ret)
+<- fish_coin_encounter_storylet_description(ret)
+<- fish_crow_encounter_second_storylet_description(ret)
+<- fish_crow_ending_storylet_description(ret)
+//<- fish_gator_encounter_first_storylet_description(ret)
+//<- fish_gator_encounter_second_storylet_description(ret)
+//<- fish_gator_ending_storylet_description(ret)
 
 <- dog_child_encounter_storylet_description(ret)
 <- dog_dog_encounter_storylet_description(ret)
@@ -351,6 +359,108 @@ You see an young child with a plastic Ziploc bag of candy kneeling over the pond
 ** [Listen in.] “There is that smelly river that runs below the building, but all the animals say there is a big monster that lives there.” he says, pointing his nose towards the sewer pipe. “There is also a loud crow over there who knows everything about everything, but man does he love to squawk.” he says, pointing his nose to the telephone pole across the street.
 *** [Think.] Hmmm. I should be able to easily swim up the stream to get into the sewer, but I hope I don’t have a run in with that monster. But, oh man! The street?! I’m a fish, how am I supposed to do that! I need to find a way to move on land. The sound of a human calling echoes in the distance making the dog’s ear shoot up again. “My human is calling, I gotta go. Later, friend.” says the dog as he sprints away.
 - ->->
+
+== fish_cat_encounter_storylet_description(->ret) ==
+{ player_animal == fish && current_location == street:
+    + [A stray street cat peers at you from a nearby alleyway.]
+        -> fish_cat_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_cat_encounter_storylet_body ===
+{ cat_encounter == 0:
+I roll over to entrance of the alley. The stray cat sits atop a metal trash can, a scar running through his right eye, covered by a little eyepatch. He glares down at you with his fur raised. "Excuse me, could I ask you for some help?" you beckon, but the cat says nothing. Instead, he slow begins to stand to his feet, creeping forward as if he is stalking his prey. Wait. Doesn't that me I'm the prey. 
+* [Uh oh.] "Well, I can see that you are busy, so I'll catch you later," I say as I begin to roll backwards slowly. Suddenly, the cat lunges forward bearing its claws and hissing loudly. Once of its claws punctures the bag, but falls off in the process, preventing water from escaping. I tumble back quickly onto the sidewalk, evading the cat's attack. The cat slinks back into the darkness of the alleyway once again, still watching and waiting for another time to strike. Whelp. Looks like the alleyway is the cat's territory. Won't be able to find a way in from there.
+~ cat_encounter++
+->->
+}
+{ cat_encounter > 0:
+The cat continues to glare at you, waiting to strike. You remember the severed claw still plugging the hole in your Ziploc transport. Best not mess with him anymore.
+~ cat_encounter++
+->->
+}
+
+== fish_crow_encounter_first_storylet_description(->ret) ==
+{ player_animal == fish && current_location == street && shiny_crow_coin == 0:
+    + [A squawking crow is perched on a nearby railing.]
+        -> fish_crow_encounter_first_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_crow_encounter_first_storylet_body ===
+{ crow_encounter == 0:
+I roll over to the railing where the crow is perched. "WHO ARE YOU? WHO ARE YOU? YOU CAN'T HAVE MY SHINY TREASURES! THEY ARE MINE! MINE! ONLY FOR ME! ME!" he squawks at every person that passes by. "Excuse me, could I ask you some things, Mr. Crow," I call to the crow. "WHAT? WHAT? WHO SAID THAT? WHO? ARE YOU HERE TO STEAL MY TREASURE? SHOW YOURSELF!" he yaps. "Down here!" I say. The crow looks down at you, tilting in his head in confusion at the weird little goldfish in a Ziploc. He flutters down to the sidewalk. "A fish? A fish on the sidewalk? A shiny fish on the sidewalk? Who are you?" he questions as he lightly taps at your bag. "I'm lost from home and I need to find away into the apartment up there," I say, gesturing towards my apartment window, "Could you help me out?"
+* [Look back to the crow] You look back at the crow, but he is just staring slack jawed at me. "Hello?" you asked, "You okay?" He snaps out of his trance. "Sorry. Sorry. Sorry. You are so shiny. I like shiny. Shiny things are my favorite," he rambles, "Yes. Yes. I know that place, but I want something in return. Something shiny. I like shiny." "Okay. If I get you something shiny, you'll get me up there?" you ask. "Yes. Yes. Yes. 1 shiny treasue equals 1 favor, shiny fish," he answers. "Alright. I'll get you your treasure. Just you wait," you say as the crow flies back up to his perch. Okay. Where can I find something shiny that he will like? 
+~ crow_encounter++
+->->
+}
+{ crow_encounter > 0:
+You look up at the squawking crow on his perch. "1 SHINY TREASURE EQUALS 1 FAVOR!" he squawks down to you.
+~ crow_encounter++
+->->
+}
+
+== fish_coin_encounter_storylet_description(->ret) ==
+{ player_animal == fish && current_location == park && crow_encounter > 0 && shiny_crow_coin == 0:
+    * [Shiny coins gleam at the both of the pond]
+        -> fish_coin_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_coin_encounter_storylet_body ===
+~ shiny_crow_coin++
+I swim down to the both of the pond and look into your reflection on one of the shiny coins littering the pond floor. Man. Where am I gonna find something shiny for that crow. You ponder for a couple of minutes, looking at yourself on the SHINY coin. Oh. Hold on. THE COIN. That crow would over one of these.
+* [Grab the coin.] You grab the coin using your month, lug it back to the surface, and slide it into you Ziploc bag. I hope he like it.
+- ->->
+
+== fish_crow_encounter_second_storylet_description(->ret) ==
+{ player_animal == fish && current_location == street && shiny_crow_coin > 0 && which_end == no_end:
+    + [A squawking crow is perched on a nearby railing. He looks interested in your coin.]
+        -> fish_crow_encounter_second_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_crow_encounter_second_storylet_body ===
+~ which_end = crow_end
+The crow excitedly flutters down from his perch. "SHINY! YOU HAVE SOMETHING SHINY! FOR ME? IS IT FOR ME?" he yammers. "Yep. Now, can you get me out there?" you ask. "YEP. YEP. YEP. GIMME THE SHINY," he demands. "No," you counter, "Not until you fulfill your side of the deal." The crow groans a little, but reluctantly nods his head. "Tell me when you are ready to go, so I can have my shiny," he says.
+- ->->
+
+== fish_crow_ending_storylet_description(->ret) ==
+{ player_animal == fish && current_location == street && which_end == crow_end:
+    + [It's time to head out with the crow.]
+        -> fish_crow_ending_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_crow_ending_storylet_body ===
+"Alright, I'm ready to go," you say to the crow. "OKAY! LET'S TAKE FLIGHT!" he squawks as he grabs onto the Ziplocs with his talons. With just a couple of flaps, the crow takes off. People below watching in amazement and confusion as a fish in a Ziploc flys into the sky. Everything just seconds ago towered over my little fish body, but now it all looks so small. I can see the park and the run off pipe in the distance as I glide by. The cat in the alley watches from the ground, still glaring. I feel a sense of relief as the crow approaches the apartment.
+- -> fish_in_apartment
+
+== fish_in_apartment ==
+{ which_end == crow_end:
+Upon reaching the open apartment window, the crow swoops inside. "Fly over to that fish tank, please," I request, gesturing toward fish take in the corner. The crow nods, glides over, and perches on the edge of the tank. "Alright, pour me into the tank and the coin is all yours." I say. The crow happily cackles as he tears the Ziploc open with his beck. I flow into the tank and the crow snatches the coin out of the bag, grinning as he admires his reflection on the coin. "Lastly, can you shut the lid on the tank for me?" I request lastly. But something is different. The crow looks back at me serious and says, "No. 1 shiny equals 1 favor."
+* [What!] The crow picks up the coin in his mouth, turns toward the window, and begins to flap his wings to leave. Quick! I gotta think of something quick! "Wait! Um... if you close the lid, you can have as much treasure from this apartment as you want!" The crow stops in his tracks, dropping the coin onto the floor. "Anything?" he confirms, "Any treasure I want?" "Yes. Yes," I beckon, "Just please help me one last time." And in an instant, the crow swings back around, grabs the tank lid with his beck, and slams the tank shut.
+** Finally! [] Safe and sound. You feel all of the stress leave your body. You begin to feel very tired. What a day. You begin to drift off to sleep. He hear the crow excitedly looking for treasure and laughing as you lose conciousness.
+-> fish_end
+}
+{ which_end == gator_end:
+-> fish_end
+}
+
+== fish_end ==
+{ which_end == crow_end:
+* [Wake up.] I wake up to the sound of chirping birds and car passing by through my open window. I sit up still feeling quite exhausted still. Man, what a dream.
+** [Glance over at my fish tank] My new little fish happily swims back and forth in the water. Although it has only been 1 night, my fish seem to have lost some scales. Hmm? How could that have happened. I stand to get out of bed and I step into something wet. The floor is covered with water and a damp Ziploc bag lays on the floor next to the tank. I go and shut the window, but, suddenly, I hear the sound of coins and keys falling in the kitchen. I walk over to see a crow flying around the kitchen, happily through several shiny object into the air as if in celebration. {cat_encounter > 0: Suddenly again, I hear a thud out on the fire escape. I walk over to see a stray cat with an eye patch and 1 missing claw clawing and hissing at the closed window} Wait, wait, wait! Did everything in that dream actually happen? I run over to my fish and stare at him through the glass. "Do you know what happened?" I ask him. "Blub," he responds.
+->END
+}
+{ which_end == gator_end:
+->END
+}
 
 ////////////////////// DOG SECTION //////////////////////
 

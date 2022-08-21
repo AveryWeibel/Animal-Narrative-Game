@@ -101,20 +101,91 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 
 // Location Menu
 === travel_actions(->ret) ===
-+ {CanTravel(park)} [Go to the park]
-  Going to the park
-  ~ current_location = park
-+ {CanTravel(street) && dog_encounter >= 1 && child_encounter >= 1 && current_location == park}
-  [Check out a plastic Ziploc bag sitting on the shore.]
-  Going to the street
-  ~ current_location = street
-+ {CanTravel(sewer) && dog_encounter >= 1 && current_location == park} [Swim down the stream leading into the sewer.]
-  Going to the sewer
-  ~ current_location = sewer
-+ {CanTravel(alleyway)} [Go to alleyway]
-  Going to the alleyway
-  ~ current_location = alleyway
-- -> ret
+{player_animal:
+    -rat:
+        + {CanTravel(park)} [Go to the park]
+        ~ current_location = park
+        ~ park_visits++
+        ->ret
+        + {CanTravel(street)} [Go to the street]
+        ~ current_location = street
+        ~ street_visits++
+        ->ret
+        + {CanTravel(sewer)} [Go to sewer]
+        ~ current_location = sewer
+        ~ sewer_visits++
+        ->ret
+        + {CanTravel(alleyway)} [Go to alleyway]
+        ~ current_location = alleyway
+        ~ alley_visits++
+        ->ret
+    -fish:
+        + {CanTravel(park) && current_location == street} [Roll back across to the street to the park's pond.]
+        ~ current_location = park
+        I roll back across the street to the shore of the park pond. I ram the side of the Ziploc, forcing the bag open and pouring me into the park's pond.
+        ~ park_visits++
+        ->ret
+        + {CanTravel(park) && current_location == sewer} [Swim down the stream back to the park's pond.]
+        ~ current_location = park
+        I swim back into the stream, allowing the sewer current to wash me back out of the runoff pipe and into the park's pond.
+        ~ park_visits++
+        ->ret
+        + {CanTravel(street) && dog_encounter >= 1 && child_encounter >= 1 && current_location == park}
+        [Check out a plastic Ziploc bag sitting on the shore.]
+        ~ street_visits++
+        {street_visits == 1:
+        I see the small plastic Ziploc bag that the child tried to catch me in on the shore of the pond. The shopkeeper's words about being creative ring in my head. Suddenly, I remember that silly scene from Finding Nemo where the fish escape using the plastic bag. Maybe I can do the same. I grab the opening of the bag with my mouth and pull the bag into the water, filling it with water. With a little strength and ingenuity, I am able to enter the bag, seal it up, and roll onto the shore. Now in the bag, I am able to roll through the park and across the street as people watch in confusion. 
+        }
+        {street_visits > 1:
+        I refill my bag with water, hop back in, and roll across the street.
+        }
+        ~ current_location = street
+        ->ret
+        + {CanTravel(sewer) && dog_encounter >= 1 && current_location == park} [Swim up the stream leading into the sewer.]
+        ~ sewer_visits++
+        {sewer_visits == 1:
+        I swim over the large sewage runoff pipe stream nearby the park's pond. Disgusting runoff water leaks into the pond creating a grotesque pathway for me to make my way into the sewer. As I swim down the sewage stream, trash and waste from the world above float passed me. Man, humans are disgusting. Eventually, I reach a sewer junction where I am able to rest without being whisked away but the current. Man, it stinks down here and it's creepy as hell to boot with all the rumors of a monster living down here, but I gotta find a way back home.
+        }
+        {sewer_visits > 1:
+        I swim up the sewage run off stream into the sewer.
+        }
+        ~ current_location = sewer
+        ->ret
+    -dog:
+        + {CanTravel(park)} [Go to the park]
+        ~ current_location = park
+        ~ park_visits++
+        ->ret
+        + {CanTravel(street)} [Go to the street]
+        ~ current_location = street
+        ~ street_visits++
+        ->ret
+        + {CanTravel(sewer)} [Go to sewer]
+        ~ current_location = sewer
+        ~ sewer_visits++
+        ->ret
+        + {CanTravel(alleyway)} [Go to alleyway]
+        ~ current_location = alleyway
+        ~ alley_visits++
+        ->ret
+    -cat:
+        + {CanTravel(park)} [Go to the park]
+        ~ current_location = park
+        ~ park_visits++
+        ->ret
+        + {CanTravel(street)} [Go to the street]
+        ~ current_location = street
+        ~ street_visits++
+        ->ret
+        + {CanTravel(sewer)} [Go to sewer]
+        ~ current_location = sewer
+        ~ sewer_visits++
+        ->ret
+        + {CanTravel(alleyway)} [Go to alleyway]
+        ~ current_location = alleyway
+        ~ alley_visits++
+        ->ret
+}
 
 == function DescribeLocation() ==
 { current_location:
@@ -127,7 +198,8 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
             ~ connecting_locations = (street, sewer, alleyway)
         }
         - fish: 
-        fishy in the pond at the park.
+        I swim around the pond at the park as people and local animals walk by.
+        Hmm... what to do next?
         ~ connecting_locations = (street, sewer)
         - dog : 
         "Where should I go...?"
@@ -140,8 +212,9 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
     - street:
         {player_animal:
         - rat :
-        - fish: 
-        fishy in the baggy on the streets.
+        - fish:
+        I swim around my little plastic bag on the sidewalk of the street. People and local animals walk by, confused by the weird little fish in a Ziploc.
+        Hmm... what to do next?
         ~ connecting_locations = (park)
         - dog :
         {  area_moves == 2:
@@ -154,8 +227,9 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
     - sewer:
         {player_animal:
         - rat :
-        - fish: 
-        fishy swimming in the stinky water.
+        - fish:
+        I swim around in the disgusting sewer water as trash and waste float by.
+        Hmm... what to do next?
         ~ connecting_locations = (park)
         - dog : 
         {  area_moves == 2:
@@ -179,6 +253,7 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 === storylets(->ret) ===
 <- fish_child_encounter_storylet_description(ret)
 <- fish_dog_encounter_storylet_description(ret)
+
 <- dog_child_encounter_storylet_description(ret)
 <- dog_dog_encounter_storylet_description(ret)
 <- dog_street_encounter_storylet_description(ret)
@@ -239,7 +314,6 @@ You see an young child with a plastic Ziploc bag of candy kneeling over the pond
 Should I risk it in the streets?
 Should I hide in the sewers?
 Should I wing it and look around my apartment?
-
 - ->->
 
 == dog_dog_encounter_storylet_description(->ret) ==

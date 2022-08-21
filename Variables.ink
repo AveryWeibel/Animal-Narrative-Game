@@ -3,6 +3,12 @@ LIST locations = alleyway, park, sewer, street  // Define all potential location
 VAR current_location = park
 VAR connecting_locations = ()
 
+// Location Move Tracking
+VAR park_visits = 1
+VAR street_visits = 0
+VAR sewer_visits = 0
+VAR alley_visits = 0
+
 // Animal Handling
 LIST animal_type = human, cat, dog, fish, rat
 VAR player_animal = human

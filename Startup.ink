@@ -104,10 +104,11 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 + {CanTravel(park)} [Go to the park]
   Going to the park
   ~ current_location = park
-+ {CanTravel(street)} [Go to the street]
++ {CanTravel(street) && dog_encounter >= 1 && child_encounter >= 1 && current_location == park}
+  [Check out a plastic Ziploc bag sitting on the shore.]
   Going to the street
   ~ current_location = street
-+ {CanTravel(sewer)} [Go to the sewer]
++ {CanTravel(sewer) && dog_encounter >= 1 && current_location == park} [Swim down the stream leading into the sewer.]
   Going to the sewer
   ~ current_location = sewer
 + {CanTravel(alleyway)} [Go to alleyway]
@@ -188,9 +189,11 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- rat_sewer_encounter_storylet_description(ret)
 ->DONE
 
+////////////////////// FISH SECTION //////////////////////
+
 == fish_child_encounter_storylet_description(->ret) ==
 { player_animal == fish && current_location == park && child_encounter == 0:
-    * [Child encounter]
+    * [A child kneels by the pond, reaching for a float frisbee.]
         -> fish_child_encounter_storylet_body ->
     -> ret
 }
@@ -198,12 +201,14 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 
 === fish_child_encounter_storylet_body ===
 ~ child_encounter++
-Child is a bastard
+You see an young child with a plastic Ziploc bag of candy kneeling over the pond, reaching for a frisbee floating in the pond. You swim up the to child. “Excuse me. Can you please help me out.” you ask, but the child doesn’t seem to notice and continues to reach for the frisbee.
+* [Do a little fishy trick] I dive down deep into the water and begin to swim upwards as fast as I can. Breaking the surface of the water, I fly into the air and do a little flip before splashing back into the water. Stunned,  child falls backwards in amazement, spilling his candy out on the floor.  “Hey kid. Can you help me get over to that apartment over there?” you ask, but the kid doesn't respond. Damn. He can't understand me. Suddenly, the child jumps up with a huge grin on his face. "FISHY!" he yells as he lunges forward, plastic bag in hand. He's trying to catch me!
+** [SWIM] I dive back into the water to evade the child’s clutches, but his nail snags my side, scrapping some of my scales away. The child falls into the water, dropping the bag and letting out a wail as he struggles to get up in the pond. His mother rushes over from nearby, snatches him out of the water, and runs off to dry her child off.
 - ->->
 
 == fish_dog_encounter_storylet_description(->ret) ==
 { player_animal == fish && current_location == park && dog_encounter == 0:
-    * [Dog Encounter]
+    * [A dog trots near by, curious about the extra bread left on the shore by the shopkeeper.]
         -> fish_dog_encounter_storylet_body ->
     -> ret
 }
@@ -211,7 +216,10 @@ Child is a bastard
 
 === fish_dog_encounter_storylet_body ===
 ~ dog_encounter++
-Dog is cool guy
+“Hey, you can have some if you want!” I shout to the nearby dog. His ears perk up and his tail begins to wag as he trots over to the edge of the pond. “Really! I can have it all?!” he says excitedly. “It’s all yours, my friend,” I assure him. The dog begins to happily scarf down each piece of bread instantly, not leaving a single crumb behind. Slobber flings from his mouth as huge droplets
+* [Dodge the slobber.] I swim back and forth, dodging the slobber as it hits the water. The dog sits down on the shore, satisfied by his meal. “You’re my friend now. We are friends now.” he says happily, still wagging his tail. “Cool!” I continue, “It just so happens that I’m in quite the situation myself. Do you know a way to get back to that apartment building down the street?” “Hmmm. Let me think.” he says, scratching his ear with his leg. “Oh! Oh! Oh! I have some ideas.” he barks.
+** [Listen in.] “There is that smelly river that runs below the building, but all the animals say there is a big monster that lives there.” he says, pointing his nose towards the sewer pipe. “There is also a loud crow over there who knows everything about everything, but man does he love to squawk.” he says, pointing his nose to the telephone pole across the street.
+*** [Think.] Hmmm. I should be able to easily swim up the stream to get into the sewer, but I hope I don’t have a run in with that monster. But, oh man! The street?! I’m a fish, how am I supposed to do that! I need to find a way to move on land. The sound of a human calling echoes in the distance making the dog’s ear shoot up again. “My human is calling, I gotta go. Later, friend.” says the dog as he sprints away.
 - ->->
 
 ////////////////////// DOG SECTION //////////////////////

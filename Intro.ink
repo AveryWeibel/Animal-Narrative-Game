@@ -5,7 +5,7 @@ It was a day like any other. I left my apartment and began to walk around the ne
 First things first, I stop by the alleyway and leave out a little snack for the stray cats. Most of them are shy and cautious of me, but I think one of them is starting to take interest.
     * [Wait and observe the cats]
         After a while the curious one starts to eat. Satisfied in my good work, I resume my walk.
-    * [Be on your way]
+    * [Be on my way]
         I wouldn't want to impose, I resume my walk.
  - A few minutes later, I round a corner and see something unusual. What looks like a miniaturized circus tent has been set up just off the sidewalk. Above the entrance hangs a sign "All welcome inside!"
     * [Enter the tent.] -> EnterTheTent

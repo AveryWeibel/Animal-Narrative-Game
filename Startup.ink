@@ -10,6 +10,7 @@
     My peaceful slumber is disturbed with a loud splash. I feel as my whole body submerges into the cool, soothing water as I sink deeper and deeper back to sleep. -> fish_start ->
     - dog : My peaceful slumber is disturbed by the sounds of birds chirping somewhere in the distance. I roll over and feel the sun’s warm rays warm my face. -> dog_start ->
     - cat :
+    My catnap is disturbed by the commotion of cars honking back and forth nearby. After a loooooong stretch and yawn, I
     -> cat_start ->
 }
 -> Loop
@@ -57,7 +58,16 @@ Is it possible that the shady shopkeeper was actually telling the truth? “Be w
 ***** I can’t believe this[.] is really happening! I have to find my way home and back into my original human body. -> dog_with_shopkeeper
 
 == cat_start ==
-*[Wake up.] ->->
+
+*[begin to purr.]
+    Contentedly observing my surroundings, I can see all my kingdom from this park bench...
+*[start grooming my fur.] This spot is all out of whack, and this one is pointed the wrong direction. I lick away the grime and put my coat back in order...
+
+- WAIT!!!
+This isn't right at all! Where am I? What am I?
+* [This must be a dream!]"This must be a dream!" I say out loud, but all that comes out is a long soulful yowl ->cat_with_shopkeeper 
+
+->->
 
 // interaction with shopkeeper as pet
 == rat_with_shopkeeper ==
@@ -87,6 +97,37 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 ->->
 
 == cat_with_shopkeeper ==
+"You have awoken from your nap, and find yourself in my devilish trap!"
+* [Turn to face the voice]
+- Behind me on the bench is the shopkeeper, I sweear he wasn't there a second ago!
+* [Attack!]
+    I leap forward, claws extended! The shopkeep brings a robed sleeve to intercept and before I know it I'm wrapped up in a sea of violet fabric..
+    "Tsk tsk, I declare, you just missed me by a hair!"
+    
+    "If you know what's good for you, get back home by ten plus two!"
+* [Hiss.]
+    "&*\#%? !"
+    
+   "@?\#%*& !!!" I hiss.
+    
+    "Such horrendous words, you'd do better chasing birds!"
+    
+    "I know you seem to be upset, being in the body of your pet."
+    
+    "But don't despair, listen with care, get back home it's over just there!"
+    
+* [Meow?] "Why would you do this?" I meow.
+
+"An excellent question this fine morning, you good cat did not heed my warning!"
+
+"In this body you will be trapped, for by my magic you got zapped!"
+
+"Only for a time to ease your stressen, just until you've learned your lesson."
+
+"I you want to leave this feline zone, you got to make it all the way back home!"
+
+- With a whoosh of purple robe, the shopkeeper disappears.
+
 ->->
 
 == Loop ==

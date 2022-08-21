@@ -13,6 +13,10 @@ VAR alley_visits = 0
 LIST animal_type = human, cat, dog, fish, rat
 VAR player_animal = human
 
+// endings
+LIST endings = gator_end, cat_end, crow_end, raccoon_end, no_end
+VAR which_end = no_end
+
 // Encounter Handling
 VAR shopkeeper_encounter = 0
 VAR child_encounter = 0

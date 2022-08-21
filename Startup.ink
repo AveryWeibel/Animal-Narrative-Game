@@ -1,3 +1,6 @@
+INCLUDE Intro.ink
+INCLUDE Variables.ink
+
 -> Intro
 
 // Managing storylets
@@ -50,7 +53,7 @@ They said “Be warned, make sure to keep the gate closed, or upon you, misfortu
 *[Sleep in.] Birds can’t stop me from getting my dang sleep. I burrow my head in my arms to block out the sun. Dreamland seems to be getting further away from me and I grow frustrated.
 I push myself to sit up but my arms slip beneath me. Looking down, I realize that my hands have been replaced with paws.
 ** [Panic.] I scream (or whatever the dog equivalent of scream is) and fall over in shock. I turn around and see a fluffy tail tucked between my legs. I couldn’t believe my eyes and begin chasing my tail to see if it was attached to me. 
-*** [Panic more.] Sure enough, when I catch my tail, it belongs to me. I take a moment to rest from the exhausting task of chasing my tail as I hear a child say “Look mommy a puppy!” in the distance.
+*** [Panic more.] Sure enough, when I catch my tail, it belongs to me. I take a moment to rest from the exhausting task of chasing my tail as I hear a child say “Look mommy, a puppy!” in the distance.
 I scan my surroundings and realize I am in the local park. Despite the familiarity, everything suddenly feels big and scary. 
 **** [Remember what the shopkeeper said.] My heart pounds in my chest and I panic. What could have possibly happened to me between yesterday night and this morning? 
 Is it possible that the shady shopkeeper was actually telling the truth? “Be warned, make sure to keep the gate closed, or upon you, misfortune will be imposed.” I was so tired that I forgot to close the cage’s gate…
@@ -156,15 +159,18 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         ~ current_location = park
         ~ park_visits++
         ->ret
-        + {CanTravel(street)} [Go to the street]
+        + {CanTravel(street)} [Go to the street] Loud cars and various quirky humans are passing through the street. A few of them try to pet me but my dog reflexes are too fast.
+        Just kidding. How could anyone say no to head pats? That is prime dog content!
         ~ current_location = street
         ~ street_visits++
         ->ret
-        + {CanTravel(sewer)} [Go to sewer]
+        + {CanTravel(sewer)} [Go to sewer] The pipe leading to the sewer is big enough for me to walk into. Because of my newfound dog nose, the smell of the sewer is almost too strong. 
+        I weakly paw at my sensitive nose and march onward.
         ~ current_location = sewer
         ~ sewer_visits++
         ->ret
-        + {CanTravel(alleyway)} [Go to alleyway]
+        + {CanTravel(alleyway)} [Go to alleyway] I trot back to my apartment and glumly look at the building, knowing I have no way back into my apartment even if I were to enter the building. 
+        Suddenly, I hear a sound coming from the side of the building. I wonder what that was...
         ~ current_location = alleyway
         ~ alley_visits++
         ->ret
@@ -203,9 +209,10 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         ~ connecting_locations = (street, sewer)
         - dog : 
         "Where should I go...?"
-        ~ area_moves = 0
-        {  child_encounter > 0 or dog_encounter > 0:
+        ~ area_moves = 2
+        {  (child_encounter > 0 or dog_encounter > 0) && area_moves == 2:
             ~ connecting_locations = (street, sewer, alleyway)
+            ~ area_moves = 0
         }
         - cat :
         }
@@ -245,6 +252,11 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         - fish: 
         NULL.
         - dog :
+        {  area_moves == 2:
+            ~ connecting_locations = (park)
+        - else: 
+            ~ connecting_locations = ()
+        }
         - cat :
         }
 }
@@ -258,6 +270,8 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- dog_dog_encounter_storylet_description(ret)
 <- dog_street_encounter_storylet_description(ret)
 <- dog_sewer_storylet_description(ret)
+<- dog_alleyway_encounter_storylet_description(ret)
+
 <- rat_child_encounter_storylet_description(ret)
 <- rat_dog_encounter_storylet_description(ret)
 <- rat_street_encounter_storylet_description(ret)
@@ -314,6 +328,7 @@ You see an young child with a plastic Ziploc bag of candy kneeling over the pond
 Should I risk it in the streets?
 Should I hide in the sewers?
 Should I wing it and look around my apartment?
+~ area_moves = 2
 - ->->
 
 == dog_dog_encounter_storylet_description(->ret) ==
@@ -336,13 +351,13 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
 “There is the loud crow that knows everything about everything." Buddy barks towards the street.
 “There is the scary river that runs below the building." Buddy swipes his paw toward the sewer pipe by the pond.
 “There are also tricksters that live in the shadows. Maybe they know something.” Buddy runs around in circles before pointing at the alleyway with his nose.
-
+~ area_moves = 2
 - ->->
 
 == dog_street_encounter_storylet_description(->ret) ==
-{ player_animal == dog && current_location == street:
-~ area_moves = 1
-    * [Rest on the street corner.]
+{ player_animal == dog && current_location == street && area_moves == 0:
+    ~ area_moves = 1
+    + [Rest on the street corner.]
         -> dog_street_encounter_storylet_body ->
     -> ret
 }
@@ -350,65 +365,86 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
 
 === dog_street_encounter_storylet_body ===
 { crow_encounter < 1:
+    ~ area_moves = 1
     ~ crow_encounter++
     I rest beneath a telephone pole with a bunch of posters hanging off of it.
-    “Hey, hey hey!! You better not be a thief! Are you here to steal my spot? Steal my treasure? I’ll peck your eyes out. I’ve never forgotten a face. Not even that evil child with the grabby hands… A-anyWAYS WHAT DO YOU WANT?”
     Suddenly a scary crow starts flappings its wings at me and pecking the air. 
- 
-/// add crow stuff
-    
+    “Hey, hey hey!! You better not be a thief! Are you here to steal my spot? Steal my treasure? I’ll peck your eyes out. I’ve never forgotten a face. Not even that evil child with the grabby hands… A-anyWAYS WHAT DO YOU WANT?”
+     * [Bark in a panic.] "Stop stop! I'm not here to steal from you!" I yelp as the crow lands on my head. 
+     { shiny_gator_rock == 1:
+        “Wait... I-Is that a shiny green stone? I need it. Give it to me. It’s the last stone I need for my collection. You wouldn’t keep it from me, r-right?”
+        ** [Give the crow the stone.] “I have no reason not to give you the stone... But only if you help me get back home!!" I hold the stone tightly between my teeth.
+            *** [Follow the crow to the apartment.] 
+            ~ which_end = crow_end 
+            -> outside_dog_apartment
+        ** [Don't give the crow the stone.] "W-what..? Why are you bothering me then?? SCRAM!!" The crow angrily pecks my head before flying off.
+        ~ area_moves = 2
+        ->->
+    - else: 
+        “T-this is a trick, isn’t it? You want to get rid of me! HA! Well, think again! Leave me alone!” The crow angrily caws in my ear before flying off. 
+        I promptly run away.
+        ~ area_moves = 2
+        ->->
+     }
 - else: 
-bird brainnnnn
-~area_moves = 2
+    "What do you want?!?!"
+    ~ area_moves = 1
+    ~ which_end = crow_end
+    { shiny_gator_rock == 1:
+        "Please, I need to get home."
+        * [Drop the rock in front of the telephone pole.] "FINALLY. Was that so hard? I can't believe you would try to scam me. I'll never forget your attitude, you dog." The crow flies off and I follow in tow.
+        ** [Follow the crow back to the apartment.]
+        -> outside_dog_apartment
+    }
+    { raccoon_encounter > 0:
+        "Have you seen any red cans?" My tail hangs between my legs as I nervously ask the crow my question.
+        "Hmph... A red can fell down the street drain... Is that all? You better not be planning anything bad! O-or else! Now GO AWAY."
+        Time to go into the... sewers. Ew. 
+        ~ area_moves = 2
+    }
 }
 - ->->
 
 == dog_sewer_storylet_description(->ret) ==
 { player_animal == dog && current_location == sewer && area_moves == 0:
-    + I follow the path into the sewer until the water splits left and right.[]
-        -> dog_sewer_storylet_body ->
+     + I follow the path into the sewer until the water splits left and right.[]
+        -> dog_sewer_storylet_body -> 
     -> ret
 }
 -> DONE
 
 === dog_sewer_storylet_body ===
 + [Go left.]
+~ area_moves = 1
 There are piles and piles of human garbage. Many things seem to have fallen through the grates.
+There are various objects that definitely don't belong in the sewers. Why is there a bicycle here? Is that a cooler...? There's even a pyramid of soda cans next to a plastic cutlery sculpture...
     { raccoon_encounter < 1:
-        I continue down the path, but nothing sticks out to me as useful. 
+        I continue down the path, but nothing sticks out to me as useful. The smell of the sewer was too much for me to handle and I sprint out of the pipe.
         ~ area_moves = 2
+        ~ current_location = park
     - else:
-        I notice a cola can shining atop a pile of junk. This would be perfect for the raccoon! ~ racoon_soda_can++ 
+        I notice a cola can shining atop a pile of junk. This would be perfect for the raccoon! 
+        ~ racoon_soda_can++ 
+        ~ current_location = park
     }
 + [Go right.] 
 { gator_encounter < 1:
     ~ area_moves = 1
     I notice something floating down the water and curiously step closer.
     Suddenly a sewer gator jumps out at me!
-    ++ Run out of the sewer and back to the park. -> dog_gator_encounter_storylet_description
-    
-    
- 
-    // FIX "RUN OUT OF THE SEWER AND BACK TO THE PARK"
-    
-    
-    
-    ++ Run deeper into the sewer and hide. 
-    The gator follows closely behind without stopping. I turn a corner and find myself at a dead end. 
-    I growl and bare my teeth at it.
-        +++ [Meet Ali the Gator.] -> dog_gator_encounter_storylet_description
-
+    -> dog_gator_encounter_storylet_description
 - else: 
     I trot over to Ali and say hello.
     She guffaws and splashes me with water. "Don't you haveeee doggy stuffff to doooo? Surely there'sssss better than to talk to an ol' sewer gatorrrr."
     I shake off all the water, bark happily at her, and leave once again.
      ~ area_moves = 2
+     ~ current_location = park
 }
 - ->->
 
 === dog_gator_encounter_storylet_description ===
 ~ gator_encounter++
-The gator raises its head out of the water and in a low grumbling voice, it finally speaks. “Youuuuu….”
+I growl as the gator raises its head out of the water and in a low grumbling voice, it finally speaks. “Youuuuu….”
 * [Youuuu...?] “Youuuuu… seem to be lost! Are you alright lil one?” The alligator lazily rolls in the water before grinning. 
 “I’mmmm… Ali, the alligator. But ev’rybody calls me a sewer gator for someeeee reason. Hmphh. Rude iffff you ask meeee.”
 ** My ears flop over sadly. "Can you please help me?" [] 
@@ -416,10 +452,91 @@ The gator raises its head out of the water and in a low grumbling voice, it fina
 “Hmmmmm. Unfortunatelyyyy… the only ways out areeee through the water and the pipessss. Sorry, little frienddddd. Try somewhere elseeee.”
 *** "Thank you[..."] for not eating me... I'll get out of your scales now..." I dejectedly walk away towards the sewer entrance.
 Ali does this sort of sickening blend of a laugh and snapping its jaws shut before stopping me with her tail. "Take thisss shiny rock. I haveeee no useeee for it. You areeee a good dog."  
+I trot back to the park, stone in mouth.
 ~ shiny_gator_rock = 1
 ~ area_moves = 2
+~ current_location = park
 - ->->
 
+== dog_alleyway_encounter_storylet_description(->ret) ==
+{ player_animal == dog && current_location == alleyway && area_moves == 0:
+    + [The alleyway hides between two apartment buildings.]
+        -> dog_alleyway_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== dog_alleyway_encounter_storylet_body ===
+~ area_moves = 1
+{ raccoon_encounter < 1:
+    I make my way to the alley that I had visited just yesterday. The dark buildings stretch and loom overhead.
+    *[Approach the raccoon shadow by the dumpster.] “Any friendly creatures here? I need some help.”
+    “Hehehe what are you doing here, dog? Need something?” a shifty raccoon jumps out of the dumpster and stares at me. 
+    ~ raccoon_encounter++
+    ** I jump back, startled by the sudden raccoon. [] “I need help getting back into my apartment. I got locked out!”
+    “Hmm, I guess I can help. But what’s in it for me? What can you offer? How about a red soda can? Can you do that for me?”
+    I paw at the ground in front of me. “I can’t really see color right now…” 
+    “That’s not really my problem, is it? Now scram!” The raccoon hisses at me and my ears and tail droop in fear.
+    ~ area_moves = 2
+    ~ current_location = park
+    ->->
+
+- else: 
+    ~ which_end = raccoon_end
+    “Shifty raccoon! I brought you a gift!” I happily trot down the alley knowing I was going home soon.
+    “There you are! Do you have what I… asked for?” The raccoon wrings its little hands and stares through me.
+    * “That’s my favorite brand! Gimme gimme gimme!” [] I hand over the cola can. 
+    The raccoon jumps around happily and I run circles around him.
+    Finally, time to go home! -> outside_dog_apartment
+}
+- ->->
+
+== outside_dog_apartment ==
+{which_end == crow_end: 
+    The crow doesn’t lead me to my apartment but to my neighbor’s apartment and begins tapping on her door. 
+    The light is on so someone must be home!
+    Eventually, a giant opens the door and shouts in surprise: “Ah! A raven! Or a crow…? And my neighbor’s dog… Are you lost?”
+    I swipe and paw the door meekly before giving her the puppy dog eyes.
+    She runs into her apartment and comes back with a key to let me back into my apartment. I leave the stone for the crow and it coos before flying off with it. 
+    *[Enter the apartment.] -> inside_dog_apartment
+}
+{which_end == raccoon_end: 
+    The raccoon brings me to my apartment window and I pathetically paw at the glass. “It’s locked.” 
+    “Well, you don’t have one of THESE now do you?” The raccoon flashes a metal tool before smashing the window lock and pushing the window open.
+    I try to hug the raccoon to the best of my ability as a dog and happily jump through the window. “Thank you for helping me! Enjoy the red can,” I bark as the raccoon scampers away. 
+    *[Enter the apartment.] -> inside_dog_apartment
+}
+
+== inside_dog_apartment ==
+
+As soon as I enter the apartment I feel at home. Everything from the decorations and even the smell reminded me that I was back safely.
+{which_end == crow_end: 
+    “You’re safe now buddy. I’m sure your owner will be back soon.” My neighbor pets me on my head and guides me back into my cage where the door was wide open.
+} 
+{which_end == raccoon_end: 
+     Despite having so much energy, I suddenly feel exhausted and sluggishly walk myself to the cage.
+} 
+* [Enter the cage.] With the cage now closed and locked, I finally let myself rest.
+I circle around inside the cage before lying down to rest. Finally, I’m safe and sound.
+** [Close my eyes.] -> dog_ending
+
+== dog_ending ==
+I hear the sound of chirping birds coming from outside. I sit up in my bed and stretch my aching bones.
+What an exhausting dream.
+* [Glance over at the dog cage] My little buddy is sleeping soundly.
+I laugh to myself as I recall my dream of turning into my new pet.
+{which_end == crow_end: 
+    Looking over at the counter, I notice a brand new dog toy wrapped in a bright red bow.
+    I walk over and read the note: “I hope you don’t mind that I used the spare key to let your dog back in the apartment. I couldn’t resist the puppy dog eyes! I hope your pup likes the new toy btw.”
+    My neighbor let the dog inside? But that’s what happened in my dream. Does that mean I really turned into a dog? 
+    I smile as I remember all the mischief I got up to yesterday. -> END
+
+} 
+{which_end == raccoon_end: 
+    I shiver as I feel a cold breeze coming from the other side of the room. I could have sworn I closed the window… huh? 
+    The latch is broken and there’s a raccoon hanging out in the alley below the window…
+    That must mean I really DID turn into a dog! I grin thinking about yesterday’s wild adventures. -> END
+} 
 
 //////////// RAT SECTION /////////////////////
 

@@ -311,9 +311,9 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- fish_coin_encounter_storylet_description(ret)
 <- fish_crow_encounter_second_storylet_description(ret)
 <- fish_crow_ending_storylet_description(ret)
-//<- fish_gator_encounter_first_storylet_description(ret)
-//<- fish_gator_encounter_second_storylet_description(ret)
-//<- fish_gator_ending_storylet_description(ret)
+<- fish_gator_encounter_first_storylet_description(ret)
+<- fish_gator_encounter_second_storylet_description(ret)
+<- fish_gator_ending_storylet_description(ret)
 
 <- dog_child_encounter_storylet_description(ret)
 <- dog_dog_encounter_storylet_description(ret)
@@ -442,6 +442,45 @@ The crow excitedly flutters down from his perch. "SHINY! YOU HAVE SOMETHING SHIN
 "Alright, I'm ready to go," you say to the crow. "OKAY! LET'S TAKE FLIGHT!" he squawks as he grabs onto the Ziplocs with his talons. With just a couple of flaps, the crow takes off. People below watching in amazement and confusion as a fish in a Ziploc flys into the sky. Everything just seconds ago towered over my little fish body, but now it all looks so small. I can see the park and the run off pipe in the distance as I glide by. The cat in the alley watches from the ground, still glaring. I feel a sense of relief as the crow approaches the apartment.
 - -> fish_in_apartment
 
+== fish_gator_encounter_first_storylet_description(->ret) ==
+{ player_animal == fish && current_location == sewer && gator_encounter == 0:
+    + [It feels like something is watching you from nearby. Investigate it.]
+        -> fish_gator_encounter_first_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_gator_encounter_first_storylet_body ===
+~ gator_encounter++
+As I swim around in the junction, it feels as if something stalks me closely behind. I begin to look around, and I see as something large swim swiftly by out of the corner of your eye. Suddenly, the large creature appears in front of me, dark copper eye staring deep into my soul. It is a large sewer gator. It snarls as it bares its fang at you. "Who are you? What brings you here?" the gator says.
+* [Greet the gator.] "Hello there," I say, "Do you think you could help me out?" The gator stops baring its fang. "Huh?" the gator says, stunned by your reaction, "You aren't scared of me?" "What? Why would I be scared of you?" you ask. "Because I'm a monster in the sewer," says the gator, "All the other animals run at the sight of me. No one wants to be around me." "Well, you don't seem that bad to me," I say. The gator seems trouble. He turns and swims to the back corner of the junction. Strange.
+- ->->
+
+== fish_gator_encounter_second_storylet_description(->ret) ==
+{ player_animal == fish && current_location == sewer && gator_encounter > 0 && which_end == no_end:
+    + [Check on the gator.]
+        -> fish_gator_encounter_second_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_gator_encounter_second_storylet_body ===
+~ which_end = gator_end
+I swim over to the gator who is hiding in a corner of the junction. He seems as if he is deep in thought. "Hey, are you alright?" you ask. "No one is ever nice to me," he says sadly, "I'm the sewer monster. I'm just here to scare people." "Well, you don't seem that scary to me," you say again. The gator looks back at you, a happy smile stretches upon his face. "No one has ever given me a chance before," he explains, "Everyone just runs away. So I decide to become the monster they expected of me." "Well, you don't have to be a monster," I reassure him. "Thank you, small fish," he says, "How can I help?" "I need to get up that tube to get back home," I explain, "Do you know anyway to do that?" "I know how to swim up those tubes in order to get into the apartments above," he says, "I can take you up." A little bizarre, but hey, anything works. "Just hop in my mouth and I swim you up, new friend," he offers.
+- ->->
+
+== fish_gator_ending_storylet_description(->ret) ==
+{ player_animal == fish && current_location == sewer && which_end == gator_end:
+    + [Jump into the gator mouth.]
+        -> fish_gator_ending_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== fish_gator_ending_storylet_body ===
+I hop into the gator mouth with blind trust. The gator mouth shuts. Although, it is damp and uncomfortable, you feel as the gator begins to swim quickly up the pipe. Next thing you know, the gator opens it's mouth and you are in the bathroom of your apartment, sticking out of the toilet.
+- ->fish_in_apartment
+
 == fish_in_apartment ==
 { which_end == crow_end:
 Upon reaching the open apartment window, the crow swoops inside. "Fly over to that fish tank, please," I request, gesturing toward fish take in the corner. The crow nods, glides over, and perches on the edge of the tank. "Alright, pour me into the tank and the coin is all yours." I say. The crow happily cackles as he tears the Ziploc open with his beck. I flow into the tank and the crow snatches the coin out of the bag, grinning as he admires his reflection on the coin. "Lastly, can you shut the lid on the tank for me?" I request lastly. But something is different. The crow looks back at me serious and says, "No. 1 shiny equals 1 favor."
@@ -450,16 +489,19 @@ Upon reaching the open apartment window, the crow swoops inside. "Fly over to th
 -> fish_end
 }
 { which_end == gator_end:
+Upon reaching the bathroom of your apartment, you direct the gator toward the fish tank locationed in the corner of the living room. The gator slinks out of the toilet and walks over to the fish tank. He spits you out into the water. Finally. Home at last. "Well, I guess I'll go," says the gator, "Thanks for being kind to me." "Wait!" you call out, "Why do you stay? It's lonely around here and it would be nice to have an aquatic friend around." The gator stares stunned at me. "You really mean it?" he says, "I could have a real home like a real house pet?" "Yeah!" I confirm, "I'm sure a gator will be an amazing pet." The gator joyfully begins to dance and jump around. His tail swings, smacking the lid of the fish tank and closing it. The gator joyfully celebrates as you begin to feel tired and drift off to sleep.
 -> fish_end
 }
 
 == fish_end ==
 { which_end == crow_end:
-* [Wake up.] I wake up to the sound of chirping birds and car passing by through my open window. I sit up still feeling quite exhausted still. Man, what a dream.
+* [Wake up.] I wake up to the sound of chirping birds and car passing by through my open window. I sit up, still feeling quite exhausted. Man, what a dream.
 ** [Glance over at my fish tank] My new little fish happily swims back and forth in the water. Although it has only been 1 night, my fish seem to have lost some scales. Hmm? How could that have happened. I stand to get out of bed and I step into something wet. The floor is covered with water and a damp Ziploc bag lays on the floor next to the tank. I go and shut the window, but, suddenly, I hear the sound of coins and keys falling in the kitchen. I walk over to see a crow flying around the kitchen, happily through several shiny object into the air as if in celebration. {cat_encounter > 0: Suddenly again, I hear a thud out on the fire escape. I walk over to see a stray cat with an eye patch and 1 missing claw clawing and hissing at the closed window} Wait, wait, wait! Did everything in that dream actually happen? I run over to my fish and stare at him through the glass. "Do you know what happened?" I ask him. "Blub," he responds.
 ->END
 }
 { which_end == gator_end:
+* [Wake up.] I wake up to the sound of birds chirping and car passing on the streets below. I sit up, still feeling quite exhausted. Man, what a dream.
+** [Glance over at my fish tank] My new little fish happily swims back and forth in the water. However, the small of something rancid hits my nose. What is that? Sewage? I stand up, covering my feet with a puddle of rancid sewer water covering the floor around the fish tank. {cat_encounter > 0: Suddenly, I hear a thud out on the fire escape. I walk over to see a stray cat with an eye patch and 1 missing claw clawing and hissing at the closed window} Suddenly again, I hear a thud in the bathroom. I run over to see a gator sitting in the bathtub, jumping in excitment. Hmmm... well, I guess I've got a new pet to take care of.
 ->END
 }
 

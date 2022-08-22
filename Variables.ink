@@ -30,7 +30,7 @@ VAR gator_encounter = 0
 VAR area_moves =  0 // 0 = enter, 1 = inside/no change, 2 = exit
 
 // Inventory Handling
-VAR racoon_soda_can = 0
+VAR raccoon_soda_can = 0
 VAR shiny_gator_rock = 0
 VAR shiny_crow_toy = 0
 VAR cat_bell = 0

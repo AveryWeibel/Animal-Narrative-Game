@@ -533,19 +533,18 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
         ~ area_moves = 2
         ->->
     - else: 
-        { cat_encounter > 0:
-            “Excuse me, Mr. Crow, sir?”
-            “What, what, WHAT DO YOU WANT? I knew you wanted to steal my treasure. THIEF! THIEF. THIE– oh. I see something shiny. Is that for me? GIMME.” The crow flaps its wings angrily at me and tries to swipe the toy from my mouth. 
-            I growl and back away. “Only if you return the cat’s bell!” [Back away from the crow more.]
-            “F-fine, FINE. Take the lame cat bell! Give me the shiny thing!” The crow flies away before returning and dropping the bell in front of me. 
-            I drop the fidget spinner and we quickly snatch up our respective shinies.
-            “Thank you for your time. Bye bye birdie!” 
-            Time to head back. [Return to the park.]
+        { cat_encounter > 0 && shiny_crow_toy == 1:
+            *[Show off the shiny toy to the crow.]
+        “What, what, WHAT DO YOU WANT? I knew you wanted to steal my treasure. THIEF! THIEF. THIE– oh. I see something shiny. Is that for me? GIMME.” The crow flaps its wings angrily at me and tries to swipe the toy from my mouth. 
+        ** [Back away from the crow.] I growl and back away. “Only if you return the cat’s bell!” 
+        “F-fine, FINE. Take the lame cat bell! Give me the shiny thing!” The crow flies away before returning and dropping the bell in front of me. 
+        I drop the fidget spinner and we quickly snatch up our respective shinies.
+        “Thank you for your time. Bye bye birdie!” 
+        Time to head back.
 
             ~shiny_crow_toy--
             ~cat_bell++
             ~ area_moves = 2
-            ~ current_location = park
             ->->
         
         - else: 
@@ -555,7 +554,7 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
         }
      }
 - else: 
-    "What do you want?!?!" 
+    "What do you want?!?!"
     ~ area_moves = 1
     ~ which_end = crow_end
     { shiny_gator_rock == 1:
@@ -577,9 +576,8 @@ Buddy’s owner even calls us over and we both get head scratches and belly rubs
         ~ area_moves = 2
         ->->
     }
-    { cat_encounter > 0:
+    { cat_encounter > 0 && shiny_crow_toy == 1:
         *[Show off the shiny toy to the crow.]
-        “Excuse me, Mr. Crow, sir?”
         “What, what, WHAT DO YOU WANT? I knew you wanted to steal my treasure. THIEF! THIEF. THIE– oh. I see something shiny. Is that for me? GIMME.” The crow flaps its wings angrily at me and tries to swipe the toy from my mouth. 
         ** [Back away from the crow.] I growl and back away. “Only if you return the cat’s bell!” 
         “F-fine, FINE. Take the lame cat bell! Give me the shiny thing!” The crow flies away before returning and dropping the bell in front of me. 

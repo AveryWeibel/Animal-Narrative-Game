@@ -904,7 +904,7 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
         ~ current_location = park
          ->->
     - else:
-        "Why are you here?!" The crow caws and flaps its wings at me. "Get away, THIEF!"
+        +"Why are you here?!" The crow caws and flaps its wings at me. "Get away, THIEF!"
         I run away in a hurry before I get pecked!
         ~ area_moves = 2
         ~ current_location = park
@@ -913,7 +913,7 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
     
     - else:
     { raccoon_encounter > 0:
-        *[Search the streets.] I look around on the street, but there doesn’t seem to be any red cans around that I can conveniently take for the raccoon. Maybe I should check somewhere else.
+        +[Search the streets.] I look around on the street, but there doesn’t seem to be any red cans around that I can conveniently take for the raccoon. Maybe I should check somewhere else.
         ~ area_moves = 2
         ~ current_location = park
         ->->
@@ -930,35 +930,35 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
 - ->->
 === rat_sewer_encounter_storylet_description(->ret) ===
 { player_animal == rat && current_location == sewer && area_moves == 0:
-    *[Run into the runoff.]
+    +[Run into the runoff.]
         -> rat_sewer_encounter_storylet_body ->
     -> ret
 }
 -> DONE
 
 === rat_sewer_encounter_storylet_body ===
+There's sewage and trash everywhere.
+~area_moves = 2
+~ current_location = park
+
 { raccoon_encounter < 1:
+    ~ gator_encounter++
     *[Inspect my surroundings.] There is sewage running through the middle of the large enclosed area I find myself in, and some random piles of cans and other trash lying around. Not sure how I’m gonna get home from here, but it doesn’t hurt to look around. 
     **[What's that over there?] In the distance, I see ripples in the water, and the head of what appears to be a sewer gator surfaces. Wait, a sewer gator? That urban legend actually exists?! I should get out of here before it sees me!
     ~ area_moves = 2
     ~ current_location = park
     ->->
-- else:
+    - else:
     { raccoon_encounter > 0:
         There’s so much trash here, there’s gotta be a red can somewhere. I’m starting to give up when a pop of color in a trash pile suddenly catches my eye.
         *[Investigate the trash pile.] I scamper over and start digging out the red item. Aha! It’s a red can!
         ~ raccoon_soda_can++
         ~ current_location = park
-        //->->
-        
-    { raccoon_soda_can == 1:
-        There's nothing else for me to do here. Let's get out.
-        ~ area_moves = 2
         ->->
+        
     }
-    }
-}
 
+}
 - ->->
 === rat_alleyway_encounter_storylet_description(->ret)===
 { player_animal == rat && current_location == alleyway && area_moves == 0:

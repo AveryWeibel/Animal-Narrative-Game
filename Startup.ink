@@ -239,7 +239,7 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
     - park:
         {player_animal:
         - rat :
-        "Oh man, where do I even start to go from here?"
+        Where to next?
         ~ area_moves = 0
         {  child_encounter > 0 or dog_encounter > 0:
             ~ connecting_locations = (street, sewer, alleyway)
@@ -325,6 +325,7 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- rat_dog_encounter_storylet_description(ret)
 <- rat_street_encounter_storylet_description(ret)
 <- rat_sewer_encounter_storylet_description(ret)
+<- rat_alleyway_encounter_storylet_description(ret)
 ->DONE
 
 ////////////////////// FISH SECTION //////////////////////
@@ -826,33 +827,49 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
 == rat_street_encounter_storylet_description(->ret) ==
 { player_animal == rat && current_location == street:
 ~ area_moves = 1
-    * [Run through the street.]
+    + [Run through the street.]
         -> rat_street_encounter_storylet_body ->
     -> ret
 }
 -> DONE
 
 === rat_street_encounter_storylet_body ===
-//{ cat_encounter < 1:
+{ cat_encounter && raccoon_encounter < 1:
+    ~ area_moves = 1
     ~ crow_encounter++
     As I run through the street, I hear a few people go “Ew, a rat!”. Man, it’s tough being a rat. 
-    “Ah, hello down there. A crow caws from the telephone pole above me before flying down. “I haven’t seen you before. Are you new around these parts or something?”
-    *[Ask the crow for help.] “I actually just moved in with my owner yesterday, but I got lost. Do you think you could help? I live in the apartments over there!” I explain, pointing out my apartment to the crow.
-    “Hmm, quite the conundrum. I’m not sure if I could be of any help to you in particular, but I do know of a cat and a raccoon that hang out in the alleyway nearby that might be able to.”
-    **[Thank the crow.] It bows its head at me in return before I run off again.
- 
-/// add crow stuff
+    “Trying to steal my TREASURE?!" A crow caws from the telephone pole above me before flying down. "Who are you?! I haven't seen you here! Are you a THIEF perhaps?!"
+    *[Ask the crow for help.] “No, I'm not a thief! I actually just moved in with my owner yesterday, but I got lost! Do you think you could help? I live in the apartments over there!” I explain, pointing out my apartment to the crow.
+    “Hmm, quite the conundrum, but NOT my problem! Go ask the alley cat or raccoon or something!”
+    **[Thank the crow.] It squawks at me before returning to guard its nest.
+    ~ area_moves = 1
+    ->->
     
-/*- else: 
-aa
-~area_moves = 2
+- else:
+    { raccoon_encounter > 0:
+        *[Search the streets.] I look around on the street, but there doesn’t seem to be any red cans around that I can conveniently take for the raccoon. Maybe I should check somewhere else.
+        ~ area_moves = 2
+        ->->
+    }
+    
+    { cat_encounter > 0:
+        “Excuse me! I’d like to talk to you again, crow!”
+        “Back AGAIN?!” The crow seems to take notice of the coin in my mouth and how it shines in the sun, because it immediately focuses on it instead. “Oooh, what’s that you’ve got there?”
+        *[Offer up the coin.] “Just a little trade offer. I hear you have something like a little bell? I’ll give you this for it.”
+        “A bell? Hm... this coin is very nice... FINE it shall be part of my collection! I'll be back.”
+        **[Bell acquired!] “Here you go!” It drops it in front of me.
+        ~shiny_crow_coin--
+        ~ cat_bell++
+        ~ area_moves = 2
+        ~ current_location = park
+        
+        ->->
+    }
 
-}*/
-- ->->
-
+}
 === rat_sewer_encounter_storylet_description(->ret) ===
 { player_animal == rat && current_location == sewer && area_moves == 0:
-    *[Run into the sewer.]
+    +[Run into the runoff.]
         -> rat_sewer_encounter_storylet_body ->
     -> ret
 }
@@ -860,10 +877,88 @@ aa
 
 === rat_sewer_encounter_storylet_body ===
 ~ gator_encounter++
-I run into the closest thing I can find, which happens to be a runoff pipe. I just keep running without looking back, and find some comfort in the darkness of… the sewer? I stop and sniff the air. Yup. Definitely the sewer.
-*[Inspect my surroundings.] There is sewage running through the middle of the large enclosed area I find myself in, and some random piles of cans and other trash lying around. Not sure how I’m gonna get home from here, but it doesn’t hurt to look around. 
-**[What's that over there?] In the distance, I see ripples in the water, and the head of what appears to be a sewer gator surfaces. Wait, a sewer gator? That urban legend actually exists?! I should get out of here before it sees me!
+    I run into the closest thing I can find, which happens to be a runoff pipe. I just keep running without looking back, and find some comfort in the darkness of… the sewer? I stop and sniff the air. Yup. Definitely the sewer.
+    *[Inspect my surroundings.] There is sewage running through the middle of the large enclosed area I find myself in, and some random piles of cans and other trash lying around. Not sure how I’m gonna get home from here, but it doesn’t hurt to look around. 
+    **[What's that over there?] In the distance, I see ripples in the water, and the head of what appears to be a sewer gator surfaces. Wait, a sewer gator? That urban legend actually exists?! I should get out of here before it sees me!
+    ~ area_moves = 2
+    ~ current_location = park
+->->
+- else:
+    { raccoon_encounter > 0:
+        There’s so much trash here, there’s gotta be a red can somewhere. I’m starting to give up when a pop of color in a trash pile suddenly catches my eye.
+        *[Investigate the trash pile.] I scamper over and start digging out the red item. Aha! It’s a red can!
+        ~ raccoon_soda_can++
+        ~ area_moves = 2
+        ~ current_location = park
+        ->->
+    }
 
+
+=== rat_alleyway_encounter_storylet_description(->ret)===
+{ player_animal == rat && current_location == alleyway && area_moves == 0:
+    +[There is an alleyway between the apartments.]
+        -> rat_alleyway_encounter_storylet_body ->
+    -> ret
+-> DONE
+}
+
+=== rat_alleyway_encounter_storylet_body ===
+There are dumpsters, trash piles laying around and some shards of glass scattered around on the ground. A cat lazes about on a closed dumpster, and a raccoon digs in a pile of trash, as if it’s looking for something.
++ I cautiously approach the cat{cat_encounter > 0:again}.
+    { cat_encounter < 1:
+        The cat seemingly senses me and opens its one eye, staring me down.
+        ~ cat_encounter++
+        *[Ask the cat for help.] “Um, hey there. I live in this apartment building here, but can’t make my way back in. Do you think you could help me out?”
+        “Hmmm, perhaps I could. You want my help getting home? You’re gonna have to do something for me in return. I can’t just be doing any tasks for random rats that come ask for it, ya know? Unless you're presenting yourself as a snack instead...?” The cat threatens, licking its lips.
+        **[Scary, but I accept!]  “There’s this crow that hangs out by the pizza place that took something of mine. It’s a string with a nice, little bell on it, it makes the prettiest noise. Get it back for me, and I’ll take you up.” The cat looks around for a bit before swiping a coin towards my feet. “Now leave, don’t return until you have my bell.”
+        ~ shiny_crow_coin++
+        ~ area_moves = 2
+        ~ current_location = park
+        ->->
+        
+    -else:
+        { cat_bell == 1:
+            ~ which_end = cat_end
+            “I brought back what you wanted!” I announce to the cat, and it gets up and stretches before inspecting the item.
+        “Yup, this is it. Thanks a ton.” The cat meows happily. “Well, I’ll keep my end of the deal. Hop on, I’ll give you a lift. Don’t be scared, I won’t eat you.” The cat lowers itself so I can climb onto its back. -> outside_rat_apartment
+        - else:
+            "Did you bring back my bell?" The cat stops grooming itself to ask. Looking down at the coin still in my mouth, she glares at me and her tail flicks in annoyance. "I knew I shouldn't have trusted a rat..."
+            "Sorry, I couldn't get it..."
+            "Just entice it with your shiny new coin, you can surely sway it. Now run along, don't keep me waiting."
+            ~ area_moves = 2
+            ~ current_location = park
+            ->->
+        }
+    
+    }
++ I cautiously approach the raccoon{raccoon_encounter > 0: again}.
+    { raccoon_encounter < 1:
+        The raccoon stops its digging and turns to look at me with its beady eyes. “Hm? You need something? Well I do too. Come here.” The raccoon beckons for me to come in closer.
+        ~ raccoon_encounter++
+        *[Listen to what the raccoon has to say.] “Look, here’s the thing, pal. I need a red can for my collection, and I’m not having any luck on my own at the moment. You’re pretty small, you could get something like that for me, right?”
+        **[Ask the raccoon for help.] “Will you help me out in exchange? I need to get back home to this apartment building.”
+        “Yeah, yeah I could pick a lock or two for you, but I really need that can. Get it for me, and you’ve got a deal.”
+        ~ area_moves = 2
+        ~ current_location = park
+        ->->
+    
+    -else:
+        { raccoon_soda_can == 1:
+            ~which_end = raccoon_end
+            “Here’s your can! will you help me now?”
+            “Yes, this is perfect! Thanks for helping me expand my collection.” The raccoon puts its new can away in its collection and continues. “Alright, you wanna get home, yeah? Here’s what we’re gonna do.” It holds up some kind of wire that’s bent weird, and suddenly takes off towards the entrance to the building. ->outside_rat_apartment
+            -else:
+            "Did you bring me a can?" The raccoon looks around me excitedly wringing its hands, but looks dejected when it realizes there's no can.
+            "Sorry, I couldn't find one..."
+             "Bah, no can! Get out! I don't need a rat to find a can!"
+            ~ area_moves = 2
+            ~ current_location = park
+            ->->
+    }
+}
+- ->->
+
+=== outside_rat_apartment ===
 - ->->
 //Old Stuff
 /*=== Main ===

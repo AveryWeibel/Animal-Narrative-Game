@@ -823,9 +823,9 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
 - ->->
 
 == rat_street_encounter_storylet_description(->ret) ==
-{ player_animal == rat && current_location == street:
-~ area_moves = 1
-    + [Run through the street.]
+{ player_animal == rat && current_location == street && area_moves == 0:
+    ~ area_moves = 1
+    +[Run through the street.]
         -> rat_street_encounter_storylet_body ->
     -> ret
 }
@@ -833,54 +833,59 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
 
 === rat_street_encounter_storylet_body ===
 { cat_encounter && raccoon_encounter < 1:
-    ~ area_moves = 1
     ~ crow_encounter++
-    As I run through the street, I hear a few people go “Ew, a rat!”. Man, it’s tough being a rat. 
-    “Trying to steal my TREASURE?!" A crow caws from the telephone pole above me before flying down. "Who are you?! I haven't seen you here! Are you a THIEF perhaps?!"
-    *[Ask the crow for help.] “No, I'm not a thief! I actually just moved in with my owner yesterday, but I got lost! Do you think you could help? I live in the apartments over there!” I explain, pointing out my apartment to the crow.
-    “Hmm, quite the conundrum, but NOT my problem! Go ask the alley cat or raccoon or something!”
-    **[Thank the crow.] It squawks at me before returning to guard its nest.
-    ~ area_moves = 1
-    ->->
+    { shiny_crow_coin == 1:
+    “Excuse me! I’d like to talk to you, crow!”
+        “What do you WANT?!” The crow caws at me, threatening. Although, it seems to take notice of the coin in my mouth and how it shines in the sun, because it immediately focuses on it instead. “Oooh, what’s that you’ve got there?”
+        *[Offer up the coin.] “Just a little trade offer. I hear you have something like a little bell? I’ll give you this for it.”
+        “A bell? Hm... this coin is very nice... FINE it shall be part of my collection! I'll be back.”
+        **[Bell acquired!] “Here you go!” It drops it in front of me.
+        ~ shiny_crow_coin--
+        ~ cat_bell++
+        ~ area_moves = 2
+        ~ current_location = park
+         ->->
+    - else:
+        "Why are you here?!" The crow caws and flaps its wings at me. "Get away, THIEF!"
+        I run away in a hurry before I get pecked!
+        ~ area_moves = 2
+        ~ current_location = park
+    }
     
-- else:
+    - else:
     { raccoon_encounter > 0:
         *[Search the streets.] I look around on the street, but there doesn’t seem to be any red cans around that I can conveniently take for the raccoon. Maybe I should check somewhere else.
         ~ area_moves = 2
         ->->
     }
     
-    { cat_encounter > 0:
-        “Excuse me! I’d like to talk to you again, crow!”
-        “Back AGAIN?!” The crow seems to take notice of the coin in my mouth and how it shines in the sun, because it immediately focuses on it instead. “Oooh, what’s that you’ve got there?”
-        *[Offer up the coin.] “Just a little trade offer. I hear you have something like a little bell? I’ll give you this for it.”
-        “A bell? Hm... this coin is very nice... FINE it shall be part of my collection! I'll be back.”
-        **[Bell acquired!] “Here you go!” It drops it in front of me.
-        ~shiny_crow_coin--
-        ~ cat_bell++
-        ~ area_moves = 2
-        ~ current_location = park
-        
-        ->->
-    }
-
+    As I run through the street, I hear a few people go “Ew, a rat!”. Man, it’s tough being a rat. 
+    “Trying to steal my TREASURE?!" A crow caws from the telephone pole above me before flying down. "Who are you?! I haven't seen you here! Are you a THIEF perhaps?!"
+    *[Ask the crow for help.] “No, I'm not a thief! I actually just moved in with my owner yesterday, but I got lost! Do you think you could help? I live in the apartments over there!” I explain, pointing out my apartment to the crow.
+    “Hmm, quite the conundrum, but NOT my problem! Go ask the alley cat or raccoon or something!”
+    **[Thank the crow.] It caws at me before returning to guard its nest.
+    ~ area_moves = 2
+    ~ current_location = park
+    ->->
+    
 }
+- ->->
 === rat_sewer_encounter_storylet_description(->ret) ===
 { player_animal == rat && current_location == sewer && area_moves == 0:
-    +[Run into the runoff.]
+    *[Run into the runoff.]
         -> rat_sewer_encounter_storylet_body ->
     -> ret
 }
 -> DONE
 
 === rat_sewer_encounter_storylet_body ===
-~ gator_encounter++
+{ raccoon_encounter < 1:
     I run into the closest thing I can find, which happens to be a runoff pipe. I just keep running without looking back, and find some comfort in the darkness of… the sewer? I stop and sniff the air. Yup. Definitely the sewer.
     *[Inspect my surroundings.] There is sewage running through the middle of the large enclosed area I find myself in, and some random piles of cans and other trash lying around. Not sure how I’m gonna get home from here, but it doesn’t hurt to look around. 
     **[What's that over there?] In the distance, I see ripples in the water, and the head of what appears to be a sewer gator surfaces. Wait, a sewer gator? That urban legend actually exists?! I should get out of here before it sees me!
     ~ area_moves = 2
     ~ current_location = park
-->->
+    ->->
 - else:
     { raccoon_encounter > 0:
         There’s so much trash here, there’s gotta be a red can somewhere. I’m starting to give up when a pop of color in a trash pile suddenly catches my eye.
@@ -890,8 +895,8 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
         ~ current_location = park
         ->->
     }
-
-
+}
+- ->->
 === rat_alleyway_encounter_storylet_description(->ret)===
 { player_animal == rat && current_location == alleyway && area_moves == 0:
     +[There is an alleyway between the apartments.]
@@ -902,7 +907,7 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
 
 === rat_alleyway_encounter_storylet_body ===
 There are dumpsters, trash piles laying around and some shards of glass scattered around on the ground. A cat lazes about on a closed dumpster, and a raccoon digs in a pile of trash, as if it’s looking for something.
-+ I cautiously approach the cat{cat_encounter > 0:again}.
++ I cautiously approach the cat{cat_encounter > 0: again}.
     { cat_encounter < 1:
         The cat seemingly senses me and opens its one eye, staring me down.
         ~ cat_encounter++
@@ -944,7 +949,7 @@ There are dumpsters, trash piles laying around and some shards of glass scattere
         { raccoon_soda_can == 1:
             ~which_end = raccoon_end
             “Here’s your can! will you help me now?”
-            “Yes, this is perfect! Thanks for helping me expand my collection.” The raccoon puts its new can away in its collection and continues. “Alright, you wanna get home, yeah? Here’s what we’re gonna do.” It holds up some kind of wire that’s bent weird, and suddenly takes off towards the entrance to the building. ->outside_rat_apartment
+            “Yes, this is perfect! Thanks for helping me expand my collection.” The raccoon puts its new can away in its collection and continues. “Alright, you wanna get home, yeah? Here’s what we’re gonna do.” It holds up some kind of wire that’s bent weird. ->outside_rat_apartment
             -else:
             "Did you bring me a can?" The raccoon looks around me excitedly wringing its hands, but looks dejected when it realizes there's no can.
             "Sorry, I couldn't find one..."
@@ -957,7 +962,43 @@ There are dumpsters, trash piles laying around and some shards of glass scattere
 - ->->
 
 === outside_rat_apartment ===
-- ->->
+{ which_end == cat_end:
+    “Which one’s yours?” The cat asks, motioning to the column of windows and balconies that make up the side of the apartment building. 
+    *[Point out my apartment.] The cat meows in acknowledgement before leaping nimbly arriving at my apartment.
+    “Here’s your stop.” The cat lets me down on the window sill.
+    "Oh wait, the window is closed..."
+    Seemingly reading my thoughts, the cat unsheathes its claws and cuts a hole through the glass, big enough for me to enter. I swear, this is like a movie I saw! Also, now this means I have to get my window repaired when I become human again! Goodbye paycheck… 
+    **[Thank the cat.] “Thank you so much, you were a big help!” I thank the cat for getting me back home, and it nods and jumps back down into the alleyway. 
+    ***[Enter the apartment.]->inside_rat_apartment
+}
+{ which_end == raccoon_end:
+    The raccoon looks up at the apartment windows, rubbing its hands together a little menacingly. "Which window's lock do I get to pick?"
+    It seems a little too excited about this... I point out my window to the raccoon and it grabs me before climbing up. 
+    *[Watch the raccoon get to work.] The raccoon skillfully picks the lock and opens my window. "Here ya go, pal."
+    **[Thank the raccoon.] "Thank you so much!" I thank the raccoon, and it retreats back into the alleyway.
+    ***[Enter the apartment.]->inside_rat_apartment
+}
+
+=== inside_rat_apartment ===
+Oh man, I’ve never been so relieved to be home! Luckily, I left my bedroom door open, and I enter to find the cage ajar. Well, looks like it’s time. I hope this works.
+*[Enter the cage.] I pull the cage door shut and pull the lock on the door to the best of my ability.
+**[Wash my face.] I sit down and rub my paws over my face before continuing to clean myself by licking the rest of my body. Hopefully that’ll be the last time natural rat instincts take over.
+***[Curl up on the floor.] I lay down, exhausted from the day’s events. What a long, weird day. As I find myself falling asleep, I repeatedly wish to turn back into a human.
+****[Close my eyes.] -> rat_ending
+
+=== rat_ending ===
+Bright light streams through my window, waking me up. I stretch, and notice my body still feels exhausted from whatever I did yesterday.
+*[Wake up.]  “Whoa, that was a crazy dream I had.” I feel like I was running around all day. I don’t usually feel this physically tired from a dream, but I guess last night’s dream was that intense?
+**[Glance at the rat cage.] Oh right, it felt like I actually became a rat for a day. What a weird dream that was! Maybe it was from the excitement of getting a new pet?
+{which_end == cat_end:
+    There's a pretty strong breeze coming through. I look over at my window, which has a hole cut into it. What the heck? I peer outside the window and notice a one-eyed cat hanging out in the alleyway. Suddenly, the memories of my rat journey come back.
+    I shake my head and smile about my little rat adventure. ->END
+}
+{which_end == raccoon_end:
+    Something really stinks, but I can’t find the source. I smell myself, and am instantly taken aback. Why do I smell like sewer? That’s disgusting!
+    I also can't help but notice the breeze coming through, so I should go close my window. For some reason, the lock on my window is busted, and then I notice the raccoon hanging out in the alleyway. I smile as the memories of my little rat adventure come back. ->END
+}
+
 //Old Stuff
 /*=== Main ===
 -> Starting_Location

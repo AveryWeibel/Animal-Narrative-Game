@@ -240,13 +240,14 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
         - cat :
             { 
             - area_moves == 0:
-                I find myself in a beautiful park. There is a sidewalk along the outside and across the street, an alleyway where unknown shapes move in the shade.
+                I find myself in a beautiful park. There is a sidewalk along the outside and across the street.
                 "Well, thats just great. I need to get home on my own... Where to start?"
+                
             - area_moves > 0:
-                I can get to the alley and the stree from here.
+                I can get to the street from here.
                 Where to next?
             }
-            ~ connecting_locations = (street, alleyway)
+            ~ connecting_locations = (street)
         }
     - street:
         {player_animal:
@@ -1118,10 +1119,15 @@ My eyes fixate on a dark avian shape perched atop the nearby electrical pylon. A
     ++ [Bide my time until it's distracted.]
     {bread_on_ground:
         - true:
-            After waiting a few minutes, the crow notices some some fallen bread in the park, and lands to help itself.
-            + [Continue biding]
-                The crow finishes and flies back up to the pylon.
-                ~bread_on_ground = false
+            After waiting a few minutes, the crow notices the bread on the sidewalk, and lands to help itself.
+            + Strike now[]!
+                I keep a low profile, right up until the last possible moment... Right as the crow dips it's head to take another bite I rush forwards! In a flash I have the crow pinned by my paws! "AH AH AH PLEASE SHOW MERCY!" Wails the crow. 
+                ++ [What's in it for me?]
+                    "WHATEVER YOU NEED, I CAN DO IT" He replies! "I"M VERY CAPABLE JUST BELIEVE ME!" I think for a moment...
+                    +++ Thoughts on breaking and entering[]?
+                        "HEY, YOU KNOW, I CAN I CAN JUST DON'T HURT ME!"
+                            -> cat_crow_ending_storylet_body
+                    
                 ->->
         -false:
             The bird does not budge, if only there was something tasty to lure it down...
@@ -1131,3 +1137,17 @@ My eyes fixate on a dark avian shape perched atop the nearby electrical pylon. A
     You resist!
     ->->
 ->->
+
+=== cat_crow_ending_storylet_body ===
+After the deal is struck, the crow and I make our way to the appartment. I show him up to the window to my room, and he turns and gives me a sly wink before using his beak to cleanly carve a perfect circle out of the glass! "How did you do that?!" I exclaim, to which he responded "I TOLDJA, I'M THE CAPABLE CROW!". After the favor we part ways, and I
+    + [Squeeze myself into the appartment]
+    ->inside_cat_appartment
+->END
+
+=== inside_cat_appartment ===
+Thank god I made it back! After a quick walkthrough of the house, I notice I did leave the cat's door open. Dang, I should've listened to the shopkeeper! "How does this work, I wonder to myself...". At a loss I decide I might as well sleep it off in the cat's bed, 
++ so that's what I do[]!
+    -> cat_ending
+    
+=== cat_ending ===
+The next morning, I awake in my normal human bed, with my normal, human hands. "Wow, that must've been a dream! It felt so real but... here I am.". I make myself some breakfast, and in comes the cat! as it nuzzles against my leg, I feel a breeze. "Thats odd..." I look over to the window and there's the perfect circle cut out of the glass! "Man, how am I gonna explain that to the appartment manager!". As I contemplate my human woes, the cackling of a crow can be heard in the distance! ->END

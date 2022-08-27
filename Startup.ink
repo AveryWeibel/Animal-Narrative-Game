@@ -334,6 +334,9 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- rat_street_encounter_storylet_description(ret)
 <- rat_sewer_encounter_storylet_description(ret)
 <- rat_alleyway_encounter_storylet_description(ret)
+
+<- cat_crow_encounter_storylet_description(ret)
+<- cat_picnic_encounter_storylet_description(ret)
 ->DONE
 
 ////////////////////// FISH SECTION //////////////////////
@@ -1067,9 +1070,64 @@ Bright light streams through my window, waking me up. I stretch, and notice my b
     I also can't help but notice the breeze coming through, so I should go close my window. For some reason, the lock on my window is busted, and then I notice the raccoon hanging out in the alleyway. I smile as the memories of my little rat adventure come back. ->END
 }
 
-/// Cat Section
-// My eyes fixate on a dark avian shape perched atop the nearby electrical pylon. A hunter's instinct kicks in and I instinctively drop to a crouched position!
-//                 * [Stalk the crow]
-//                     sss
-//                 * [Resist the urge and turn back]
-//                 sss
+//////////// CAT SECTION /////////////////////
+=== cat_picnic_encounter_storylet_description(->ret) ===
+{ player_animal == cat && current_location == park && picnic_active == true:
+A family is having a picnic nearby
+    + [Move closer to the picnic]
+       -> cat_picnic_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== cat_picnic_encounter_storylet_body ===
+There is a bounty of food being enjoyed by the family. Near the edge of the blanket is some sliced bread.
++ [Leave them be]
+    Live and let live, what good would that do me anyhow...
+    ->->
++ [Sneak a slice of bread]
+    I approach with a low profile. As the father tells a corny joke I make a move and dart away with a slice!
+    Not long after the heist the family packs up and leaves.
+    ~ picnic_active = false
+    I'm now walking around with some bread. It's very cute.
+    ~ has_bread = true
+->->
+
+=== cat_crow_encounter_storylet_description(->ret) ===
+{ player_animal == cat && current_location == street && crow_gone == false:
+    + [Walk down the sidewalk.]
+       -> cat_crow_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== cat_crow_encounter_storylet_body ===
+    
+My eyes fixate on a dark avian shape perched atop the nearby electrical pylon. A hunter's instinct kicks in and I instinctively drop to a crouched position!
++ (stalk)[Stalk the crow]
+    This bird is done for, my strategy is to...
+    ++ Rush up the pylon[]!
+        "HEYHEY HEY" Yelps the crow as he flaps frantically away. "You won't kill me today!!!" The crow flies off into the city.
+        ~crow_gone = true
+        ->->
+    ++ {has_bread} Put the bread down nearby[]    
+        I place down the bread conspicuously on the sidewalk
+        ~has_bread = false
+        ~bread_on_ground = true
+        -> stalk
+    ++ [Bide my time until it's distracted.]
+    {bread_on_ground:
+        - true:
+            After waiting a few minutes, the crow notices some some fallen bread in the park, and lands to help itself.
+            + [Continue biding]
+                The crow finishes and flies back up to the pylon.
+                ~bread_on_ground = false
+                ->->
+        -false:
+            The bird does not budge, if only there was something tasty to lure it down...
+            ->->
+    }
+* [Resist the urge and turn back]
+    You resist!
+    ->->
+->->

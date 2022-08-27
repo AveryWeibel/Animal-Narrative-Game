@@ -904,32 +904,42 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
         ~ current_location = park
          ->->
     - else:
-        +"Why are you here?!" The crow caws and flaps its wings at me. "Get away, THIEF!"
+        "What else do you want?! Leave me!"
         I run away in a hurry before I get pecked!
         ~ area_moves = 2
         ~ current_location = park
         ->->
     }
     
-    - else:
-    { raccoon_encounter > 0:
+}
+{ raccoon_encounter > 0:
         +[Search the streets.] I look around on the street, but there doesn’t seem to be any red cans around that I can conveniently take for the raccoon. Maybe I should check somewhere else.
         ~ area_moves = 2
         ~ current_location = park
         ->->
-    }
-    
-    “Trying to steal my TREASURE?!" A crow caws from the telephone pole above me before flying down. "Who are you?! I haven't seen you here! Are you a THIEF perhaps?!"
+}
+{ crow_encounter < 1:
+~ crow_encounter++
+“Trying to steal my TREASURE?!" A crow caws from the telephone pole above me before flying down. "Who are you?! I haven't seen you here! Are you a THIEF perhaps?!"
     *[Ask the crow for help.] “No, I'm not a thief! I actually just moved in with my owner yesterday, but I got lost! Do you think you could help? I live in the apartments over there!” I explain, pointing out my apartment to the crow.
     “Hmm, quite the conundrum, but NOT my problem! Go ask the alley cat or raccoon or something!”
     **[Thank the crow.] It caws at me before returning to guard its nest.
     ~ area_moves = 2
     ~ current_location = park
     ->->
+-else:
+    {crow_encounter > 0 && cat_encounter == 0:
+    "Why are you here?!" The crow caws and flaps its wings at me. "Get away, THIEF!"
+        I run away in a hurry before I get pecked!
+        ~ area_moves = 2
+        ~ current_location = park
+        ->->
+    }
 }
 - ->->
 === rat_sewer_encounter_storylet_description(->ret) ===
 { player_animal == rat && current_location == sewer && area_moves == 0:
+    ~area_moves = 1
     +[Run into the runoff.]
         -> rat_sewer_encounter_storylet_body ->
     -> ret
@@ -937,10 +947,7 @@ Maybe it’s a good idea to get a drink of water. As I scamper over and dip my f
 -> DONE
 
 === rat_sewer_encounter_storylet_body ===
-There's sewage and trash everywhere.
-~area_moves = 2
-~ current_location = park
-
+    
 { raccoon_encounter < 1:
     ~ gator_encounter++
     *[Inspect my surroundings.] There is sewage running through the middle of the large enclosed area I find myself in, and some random piles of cans and other trash lying around. Not sure how I’m gonna get home from here, but it doesn’t hurt to look around. 
@@ -957,8 +964,14 @@ There's sewage and trash everywhere.
         ->->
         
     }
-
 }
+{ gator_encounter > 0:
+    There's nothing left for me to do here. Let's leave.
+    ~area_moves = 2
+    ~current_location = park
+    ->->
+}
+
 - ->->
 === rat_alleyway_encounter_storylet_description(->ret)===
 { player_animal == rat && current_location == alleyway && area_moves == 0:

@@ -102,32 +102,13 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 == cat_with_shopkeeper ==
 "You have awoken from your nap, and find yourself in my devilish trap!"
 * [Turn to face the voice]
-- Behind me on the bench is the shopkeeper, I sweear he wasn't there a second ago!
+- Behind me on the bench is the shopkeeper, I swear he wasn't there a second ago!
 * [Attack!]
-    I leap forward, claws extended! The shopkeep brings a robed sleeve to intercept and before I know it I'm wrapped up in a sea of violet fabric..
-    "Tsk tsk, I declare, you just missed me by a hair!"
-    
-    "If you know what's good for you, get back home by ten plus two!"
+    I leap forward, claws extended! The shopkeep brings a robed sleeve to intercept and before I know it I'm wrapped up in a sea of violet fabric... "Tsk tsk, I declare, you just missed me by a hair!" I hear muffled from inside the cloth. "If you know what's good for you, get back home by ten plus two!"
 * [Hiss.]
-    "&*\#%? !"
+    "@?\#%*& !!!" I hiss. "Such horrendous words, you'd do better chasing birds!" the shopkeeper scoffs. "I know you seem to be upset, being in the body of your pet. But don't despair, listen with care, get back home, it's over just there!"
     
-   "@?\#%*& !!!" I hiss.
-    
-    "Such horrendous words, you'd do better chasing birds!"
-    
-    "I know you seem to be upset, being in the body of your pet."
-    
-    "But don't despair, listen with care, get back home it's over just there!"
-    
-* [Meow?] "Why would you do this?" I meow.
-
-"An excellent question this fine morning, you good cat did not heed my warning!"
-
-"In this body you will be trapped, for by my magic you got zapped!"
-
-"Only for a time to ease your stressen, just until you've learned your lesson."
-
-"I you want to leave this feline zone, you got to make it all the way back home!"
+* [Meow?] "Why would you do this?" I meow. An excellent question this fine morning, you good cat did not heed my warning! In this body you will be trapped, for by my magic you got zapped! Only for a time to ease your stressen, just until you've learned your lesson. If you want to leave this feline zone, you've got to make it all the way back home!"
 
 - With a whoosh of purple robe, the shopkeeper disappears.
 
@@ -256,6 +237,15 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
             ~ area_moves = 0
         }
         - cat :
+            { 
+            - area_moves == 0:
+                I find myself in a beautiful park. There is a sidewalk along the outside and across the street, an alleyway where unknown shapes move in the shade.
+                "Well, thats just great. I need to get home on my own... Where to start?"
+            - area_moves > 0:
+                I can get to the alley and the stree from here.
+                Where to next?
+            }
+            ~ connecting_locations = (street, alleyway)
         }
     - street:
         {player_animal:
@@ -271,6 +261,8 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
             ~ connecting_locations = ()
         }
         - cat :
+            Cars roar back and forth and people pass by. The place is way too loud.
+            ~ connecting_locations = (park)
         }
     - sewer:
         {player_animal:
@@ -1040,3 +1032,10 @@ Bright light streams through my window, waking me up. I stretch, and notice my b
     Something really stinks, but I can’t find the source. I smell myself, and am instantly taken aback. Why do I smell like sewer? That’s disgusting!
     I also can't help but notice the breeze coming through, so I should go close my window. For some reason, the lock on my window is busted, and then I notice the raccoon hanging out in the alleyway. I smile as the memories of my little rat adventure come back. ->END
 }
+
+/// Cat Section
+// My eyes fixate on a dark avian shape perched atop the nearby electrical pylon. A hunter's instinct kicks in and I instinctively drop to a crouched position!
+//                 * [Stalk the crow]
+//                     sss
+//                 * [Resist the urge and turn back]
+//                 sss

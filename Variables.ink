@@ -35,3 +35,7 @@ VAR shiny_gator_rock = 0
 VAR shiny_crow_toy = 0
 VAR cat_bell = 0
 VAR shiny_crow_coin = 0
+VAR crow_gone = false
+VAR bread_on_ground = false
+VAR has_bread = false
+VAR picnic_active = true

@@ -102,32 +102,13 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 == cat_with_shopkeeper ==
 "You have awoken from your nap, and find yourself in my devilish trap!"
 * [Turn to face the voice]
-- Behind me on the bench is the shopkeeper, I sweear he wasn't there a second ago!
+- Behind me on the bench is the shopkeeper, I swear he wasn't there a second ago!
 * [Attack!]
-    I leap forward, claws extended! The shopkeep brings a robed sleeve to intercept and before I know it I'm wrapped up in a sea of violet fabric..
-    "Tsk tsk, I declare, you just missed me by a hair!"
-    
-    "If you know what's good for you, get back home by ten plus two!"
+    I leap forward, claws extended! The shopkeep brings a robed sleeve to intercept and before I know it I'm wrapped up in a sea of violet fabric... "Tsk tsk, I declare, you just missed me by a hair!" I hear muffled from inside the cloth. "If you know what's good for you, get back home by ten plus two!"
 * [Hiss.]
-    "&*\#%? !"
+    "@?\#%*& !!!" I hiss. "Such horrendous words, you'd do better chasing birds!" the shopkeeper scoffs. "I know you seem to be upset, being in the body of your pet. But don't despair, listen with care, get back home, it's over just there!"
     
-   "@?\#%*& !!!" I hiss.
-    
-    "Such horrendous words, you'd do better chasing birds!"
-    
-    "I know you seem to be upset, being in the body of your pet."
-    
-    "But don't despair, listen with care, get back home it's over just there!"
-    
-* [Meow?] "Why would you do this?" I meow.
-
-"An excellent question this fine morning, you good cat did not heed my warning!"
-
-"In this body you will be trapped, for by my magic you got zapped!"
-
-"Only for a time to ease your stressen, just until you've learned your lesson."
-
-"I you want to leave this feline zone, you got to make it all the way back home!"
+* [Meow?] "Why would you do this?" I meow. An excellent question this fine morning, you good cat did not heed my warning! In this body you will be trapped, for by my magic you got zapped! Only for a time to ease your stressen, just until you've learned your lesson. If you want to leave this feline zone, you've got to make it all the way back home!"
 
 - With a whoosh of purple robe, the shopkeeper disappears.
 
@@ -257,6 +238,16 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
             ~ area_moves = 0
         }
         - cat :
+            { 
+            - area_moves == 0:
+                I find myself in a beautiful park. There is a sidewalk along the outside and across the street.
+                "Well, thats just great. I need to get home on my own... Where to start?"
+                
+            - area_moves > 0:
+                I can get to the street from here.
+                Where to next?
+            }
+            ~ connecting_locations = (street)
         }
     - street:
         {player_animal:
@@ -277,6 +268,8 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
             ~ connecting_locations = ()
         }
         - cat :
+            Cars roar back and forth and people pass by. The place is way too loud.
+            ~ connecting_locations = (park)
         }
     - sewer:
         {player_animal:
@@ -342,6 +335,9 @@ The shopkeeper ignores me and continues: “Get back home, safe and sound. That 
 <- rat_street_encounter_storylet_description(ret)
 <- rat_sewer_encounter_storylet_description(ret)
 <- rat_alleyway_encounter_storylet_description(ret)
+
+<- cat_crow_encounter_storylet_description(ret)
+<- cat_picnic_encounter_storylet_description(ret)
 ->DONE
 
 ////////////////////// FISH SECTION //////////////////////
@@ -1074,3 +1070,84 @@ Bright light streams through my window, waking me up. I stretch, and notice my b
     Something really stinks, but I can’t find the source. I smell myself, and am instantly taken aback. Why do I smell like sewer? That’s disgusting!
     I also can't help but notice the breeze coming through, so I should go close my window. For some reason, the lock on my window is busted, and then I notice the raccoon hanging out in the alleyway. I smile as the memories of my little rat adventure come back. ->END
 }
+
+//////////// CAT SECTION /////////////////////
+=== cat_picnic_encounter_storylet_description(->ret) ===
+{ player_animal == cat && current_location == park && picnic_active == true:
+A family is having a picnic nearby
+    + [Move closer to the picnic]
+       -> cat_picnic_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== cat_picnic_encounter_storylet_body ===
+There is a bounty of food being enjoyed by the family. Near the edge of the blanket is some sliced bread.
++ [Leave them be]
+    Live and let live, what good would that do me anyhow...
+    ->->
++ [Sneak a slice of bread]
+    I approach with a low profile. As the father tells a corny joke I make a move and dart away with a slice!
+    Not long after the heist the family packs up and leaves.
+    ~ picnic_active = false
+    I'm now walking around with some bread. It's very cute.
+    ~ has_bread = true
+->->
+
+=== cat_crow_encounter_storylet_description(->ret) ===
+{ player_animal == cat && current_location == street && crow_gone == false:
+    + [Walk down the sidewalk.]
+       -> cat_crow_encounter_storylet_body ->
+    -> ret
+}
+-> DONE
+
+=== cat_crow_encounter_storylet_body ===
+    
+My eyes fixate on a dark avian shape perched atop the nearby electrical pylon. A hunter's instinct kicks in and I instinctively drop to a crouched position!
++ (stalk)[Stalk the crow]
+    This bird is done for, my strategy is to...
+    ++ Rush up the pylon[]!
+        "HEYHEY HEY" Yelps the crow as he flaps frantically away. "You won't kill me today!!!" The crow flies off into the city.
+        ~crow_gone = true
+        ->->
+    ++ {has_bread} Put the bread down nearby[]    
+        I place down the bread conspicuously on the sidewalk
+        ~has_bread = false
+        ~bread_on_ground = true
+        -> stalk
+    ++ [Bide my time until it's distracted.]
+    {bread_on_ground:
+        - true:
+            After waiting a few minutes, the crow notices the bread on the sidewalk, and lands to help itself.
+            + Strike now[]!
+                I keep a low profile, right up until the last possible moment... Right as the crow dips it's head to take another bite I rush forwards! In a flash I have the crow pinned by my paws! "AH AH AH PLEASE SHOW MERCY!" Wails the crow. 
+                ++ [What's in it for me?]
+                    "WHATEVER YOU NEED, I CAN DO IT" He replies! "I"M VERY CAPABLE JUST BELIEVE ME!" I think for a moment...
+                    +++ Thoughts on breaking and entering[]?
+                        "HEY, YOU KNOW, I CAN I CAN JUST DON'T HURT ME!"
+                            -> cat_crow_ending_storylet_body
+                    
+                ->->
+        -false:
+            The bird does not budge, if only there was something tasty to lure it down...
+            ->->
+    }
+* [Resist the urge and turn back]
+    You resist!
+    ->->
+->->
+
+=== cat_crow_ending_storylet_body ===
+After the deal is struck, the crow and I make our way to the appartment. I show him up to the window to my room, and he turns and gives me a sly wink before using his beak to cleanly carve a perfect circle out of the glass! "How did you do that?!" I exclaim, to which he responded "I TOLDJA, I'M THE CAPABLE CROW!". After the favor we part ways, and I
+    + [Squeeze myself into the appartment]
+    ->inside_cat_appartment
+->END
+
+=== inside_cat_appartment ===
+Thank god I made it back! After a quick walkthrough of the house, I notice I did leave the cat's door open. Dang, I should've listened to the shopkeeper! "How does this work, I wonder to myself...". At a loss I decide I might as well sleep it off in the cat's bed, 
++ so that's what I do[]!
+    -> cat_ending
+    
+=== cat_ending ===
+The next morning, I awake in my normal human bed, with my normal, human hands. "Wow, that must've been a dream! It felt so real but... here I am.". I make myself some breakfast, and in comes the cat! as it nuzzles against my leg, I feel a breeze. "Thats odd..." I look over to the window and there's the perfect circle cut out of the glass! "Man, how am I gonna explain that to the appartment manager!". As I contemplate my human woes, the cackling of a crow can be heard in the distance! ->END
